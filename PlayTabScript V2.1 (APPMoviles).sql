@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `PlayTab`.`MAXJUGADOR` (
 -- Tabla USUARIO
 CREATE TABLE IF NOT EXISTS `PlayTab`.`USUARIO` (
   `Id_User` INT auto_increment NOT NULL UNIQUE,
-  `Run_User` VARCHAR(10) NOT NULL UNIQUE,
+  `Run_User` VARCHAR(12) NOT NULL UNIQUE,
   `Nom_User` VARCHAR(50) NOT NULL,
   `Correo_User` VARCHAR(70) NOT NULL,
   `Contra_User` VARCHAR(8) NOT NULL,
@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `PlayTab`.`ACTIVIDAD` (
   `Id_SubCategoria` INT NOT NULL,
   `Id_Estado` INT NOT NULL,
   PRIMARY KEY (`Id_Actividad`),
+  UNIQUE (`Id_SubCategoria`),  -- Restricción UNIQUE añadida en Id_SubCategoria
   CONSTRAINT `FK_Actividad_Comuna`
     FOREIGN KEY (`Id_Comuna`)
     REFERENCES `PlayTab`.`COMUNA` (`Id_Comuna`)
@@ -133,6 +134,7 @@ CREATE TABLE IF NOT EXISTS `PlayTab`.`ACTIVIDAD` (
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB, auto_increment=1000;
 
+
 CREATE TABLE IF NOT EXISTS `PlayTab`.`IMAGEN` (
     `Id_Imagen` INT AUTO_INCREMENT NOT NULL UNIQUE,
     `Id_SubCategoria` INT NOT NULL,
@@ -154,7 +156,7 @@ CREATE TABLE FAVORITO (
     ON UPDATE NO ACTION,
     FOREIGN KEY (`Id_SubCategoria`) REFERENCES  `PlayTab`.`ACTIVIDAD`(`Id_SubCategoria`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION
+
 );
 
 CREATE TABLE IF NOT EXISTS `PlayTab`.`PARTICIPANTE` (
@@ -454,3 +456,4 @@ INNER JOIN subcategoria s ON s.Id_SubCategoria = a.Id_SubCategoria
 INNER JOIN CATEGORIA C ON s.Id_Categoria = C.Id_Categoria 
 LEFT JOIN imagen i ON s.Id_SubCategoria = i.Id_SubCategoria 
 WHERE a.Id_Comuna = 200;
+

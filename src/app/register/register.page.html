@@ -27,10 +27,9 @@
           
           <!-- RUT del usuario -->
           <ion-item>
-            <ion-input label="RUT:" placeholder="sin puntos y con -" type="text" [(ngModel)]="rut" required></ion-input>
+            <ion-input label="RUT:" placeholder="sin puntos y con -" type="text" [(ngModel)]="rut" (ionInput)="formatRut()" required></ion-input>
             <ion-icon slot="end" name="finger-print-outline"></ion-icon>
           </ion-item>
-
           <!-- Campo para la fecha de nacimiento -->
           <ion-item>
             <ion-label slot="start">Fecha de Nacimiento:</ion-label>
