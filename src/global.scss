@@ -45,6 +45,10 @@ ion-label, ion-title, ion-input, ion-button {
   font-family: 'Poppins', sans-serif;
 }
 
+.header-md {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
 
 ion-button {
     display: flex;

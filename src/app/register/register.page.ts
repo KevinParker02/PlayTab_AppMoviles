@@ -129,7 +129,7 @@ export class RegisterPage {
       return;
     }
 
-    // Validar comuna
+    // Validar Región
     if (!this.regionId) {
       this.presentAlert('Error','Debe seleccionar una región.');
       return;

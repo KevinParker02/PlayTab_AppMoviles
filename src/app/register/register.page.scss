@@ -1,5 +1,5 @@
 .register-page {
-    --background: #fff;
+    --background: #F6F6F6;
   
     .register-container {
       padding: 16px;
@@ -24,7 +24,6 @@
   
       .submit-button {
         margin-top: 16px;
-        --background: linear-gradient(45deg, #00c853, #b2ff59);
         --background-hover: linear-gradient(45deg, #00b248, #9cff57);
         --color: #fff;
         font-weight: 500;

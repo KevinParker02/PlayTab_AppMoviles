@@ -4,6 +4,9 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+
+    .login-page {
+      --background: #F6F6F6;}
   
     .logo {
       width: 100px;
@@ -49,7 +52,7 @@
     .register-link {
       font-size: 0.9rem;
       margin-top: 20px;
-  
+      text-align: center;
       a {
         color: #459006;
         cursor: pointer;

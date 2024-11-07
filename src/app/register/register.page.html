@@ -16,41 +16,25 @@
     <form (submit)="SingUp()">
       <ion-item>
         <ion-label position="floating">Nombre y Apellido</ion-label>
-        <ion-input [(ngModel)]="nombre" name="nombre" required></ion-input>
+        <ion-input [(ngModel)]="nombre" name="nombre" placeholder="Ingresa tu nombre" required></ion-input>
       </ion-item>
 
 
       <ion-item>
         <ion-label position="floating">RUT</ion-label>
-        <ion-input [(ngModel)]="rut" name="rut" required></ion-input>
+        <ion-input [(ngModel)]="rut" name="rut" placeholder="Sin puntos con -" required></ion-input>
       </ion-item>
 
+      <!-- Campo para la fecha de nacimiento -->
       <ion-item>
-        <ion-label position="floating">Fecha de nacimiento</ion-label>
-        <ion-input type="date" [(ngModel)]="fechaNacimiento" name="fechaNacimiento" required></ion-input>
-      </ion-item>
-
-          <!-- Nombre de usuario -->
-          <ion-item>
-            <ion-input label="Nombre:" type="text" [(ngModel)]="nombre" required></ion-input>
-            <ion-icon slot="end" name="person-circle-outline"></ion-icon>
-          </ion-item>
-          
-          <!-- RUT del usuario -->
-          <ion-item>
-            <ion-input label="RUT:" placeholder="sin puntos y con -" type="text" [(ngModel)]="rut" (ionInput)="formatRut()" required></ion-input>
-            <ion-icon slot="end" name="finger-print-outline"></ion-icon>
-          </ion-item>
-          <!-- Campo para la fecha de nacimiento -->
-          <ion-item>
-            <ion-label slot="start">Fecha de Nacimiento:</ion-label>
-            <ion-input display-format="YYYY-MM-DD" placeholder="YYYY-MM-DD" [(ngModel)]="fechaNacimiento" required></ion-input> <!-- Cambié a ionBlur para abrir el calendario -->
-            <ion-icon slot="end" name="calendar-outline"></ion-icon>
-          </ion-item>   
+        <ion-label position="floating">Fecha de Nacimiento:</ion-label>
+        <ion-input display-format="YYYY-MM-DD" placeholder="YYYY-MM-DD" [(ngModel)]="fechaNacimiento" required></ion-input> <!-- Cambié a ionBlur para abrir el calendario -->
+        <ion-icon slot="end" name="calendar-outline"></ion-icon>
+      </ion-item>   
 
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" [(ngModel)]="mailuser" name="mailuser" required></ion-input>
+        <ion-input type="email" [(ngModel)]="mailuser" name="mailuser" placeholder="Ingresa tu correo" required></ion-input>
       </ion-item>
 
       <ion-item>
@@ -58,29 +42,39 @@
         <ion-input [(ngModel)]="celular" name="celular" placeholder="+56 9 1234 5678" required></ion-input>
       </ion-item>
 
+      <!-- Campo para seleccionar la región -->
       <ion-item>
-        <ion-label>Región</ion-label>
-        <ion-select [(ngModel)]="region" (ionChange)="onRegionChange()" name="region">
-          <ion-select-option *ngFor="let reg of regionId" [value]="reg.id">{{ reg.nombre }}</ion-select-option>
+        <ion-label position="floating">Region</ion-label>
+        <ion-select [(ngModel)]="region" (ionChange)="onRegionChange()" placeholder = 'Seleccione su región' required>
+          <ion-select-option *ngFor="let region of regionId" [value]="region.Id_Region">{{ region.Nombre_Region }}</ion-select-option>
         </ion-select>
       </ion-item>
 
+      <!-- Campo para seleccionar la comuna -->
       <ion-item>
-        <ion-label>Comuna</ion-label>
-        <ion-select [(ngModel)]="comuna" name="comuna">
-          <ion-select-option *ngFor="let com of comunaId" [value]="com.id">{{ com.nombre }}</ion-select-option>
-        </ion-select>
+        <ion-label position="floating">Comuna</ion-label>
+        <ion-select [(ngModel)]="comuna" placeholder = 'Seleccione su comuna' required>
+          <ion-select-option *ngFor="let comuna of comunaId" [value]="comuna.Id_Comuna">{{ comuna.Nombre_Comuna }}</ion-select-option>
+        </ion-select>                      
       </ion-item>
 
-      <ion-item>
+      <ion-item lines="none">
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input [(ngModel)]="password" name="password" type="password" required></ion-input>
-        <ion-icon slot="end" name="eye" (click)="togglePassword()"></ion-icon>
+        <ion-input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          placeholder="Ingresa tu contraseña"
+        ></ion-input>
+        <ion-icon
+          slot="end"
+          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          (click)="togglePassword()"
+        ></ion-icon>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">Confirma tu contraseña</ion-label>
-        <ion-input [(ngModel)]="ConfirmPassword" name="ConfirmPassword" type="password" required></ion-input>
+        <ion-input   [type]="showPassword ? 'text' : 'password'" [(ngModel)]="ConfirmPassword" name="ConfirmPassword" type="password" required placeholder="Ingresa tu contraseña una vez más"></ion-input>
       </ion-item>
 
       <ion-item lines="none">
