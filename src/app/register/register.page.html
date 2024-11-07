@@ -1,94 +1,103 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button default-href="#"></ion-back-button>
     </ion-buttons>
+    <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="register-page">
-  <div class="register-container">
-    <h1>Regístrate</h1>
-    <p class="subtitle">
-      <strong>¿Un partido improvisado?</strong> ¡Encuentra compañeros en cualquier momento y lugar!
-    </p>
+<ion-content class="fondo">
+  <ion-grid class="singup-container">
+    <ion-row class="cont-titulo ion-justify-content-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-title><strong>¡Crea tu cuenta!</strong></ion-title>
+      </ion-col>
+    </ion-row>
 
-    <form (submit)="SingUp()">
-      <ion-item>
-        <ion-label position="floating">Nombre y Apellido</ion-label>
-        <ion-input [(ngModel)]="nombre" name="nombre" placeholder="Ingresa tu nombre" required></ion-input>
-      </ion-item>
+    <ion-row class="cont-singup ion-justify-content-center">
+      <ion-col size="12" class="ion-text-start">
+        <ion-list lines="none" class="form">
 
+          <!-- Nombre de usuario -->
+          <ion-item>
+            <ion-input label="Nombre:" type="text" [(ngModel)]="nombre" required></ion-input>
+            <ion-icon slot="end" name="person-circle-outline"></ion-icon>
+          </ion-item>
+          
+          <!-- RUT del usuario -->
+          <ion-item>
+            <ion-input label="RUT:" placeholder="sin puntos y con -" type="text" [(ngModel)]="rut" required></ion-input>
+            <ion-icon slot="end" name="finger-print-outline"></ion-icon>
+          </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">RUT</ion-label>
-        <ion-input [(ngModel)]="rut" name="rut" placeholder="Sin puntos con -" required></ion-input>
-      </ion-item>
+          <!-- Campo para la fecha de nacimiento -->
+          <ion-item>
+            <ion-label slot="start">Fecha de Nacimiento:</ion-label>
+            <ion-input display-format="YYYY-MM-DD" placeholder="YYYY-MM-DD" [(ngModel)]="fechaNacimiento" required></ion-input> <!-- Cambié a ionBlur para abrir el calendario -->
+            <ion-icon slot="end" name="calendar-outline"></ion-icon>
+          </ion-item>   
 
-      <!-- Campo para la fecha de nacimiento -->
-      <ion-item>
-        <ion-label position="floating">Fecha de Nacimiento:</ion-label>
-        <ion-input display-format="YYYY-MM-DD" placeholder="YYYY-MM-DD" [(ngModel)]="fechaNacimiento" required></ion-input> <!-- Cambié a ionBlur para abrir el calendario -->
-        <ion-icon slot="end" name="calendar-outline"></ion-icon>
-      </ion-item>   
+          <!-- Correo electrónico del usuario -->
+          <ion-item>
+            <ion-input label="Correo:" type="email" [(ngModel)]="mailuser" required></ion-input>
+            <ion-icon slot="end" name="at-outline"></ion-icon>
+          </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" [(ngModel)]="mailuser" name="mailuser" placeholder="Ingresa tu correo" required></ion-input>
-      </ion-item>
+          <!-- Celular del usuario -->
+          <ion-item>
+            <ion-input label="Celular:" type="tel" placeholder="+569" [(ngModel)]="celular" required></ion-input>
+            <ion-icon slot="end" name="call-outline"></ion-icon>
+          </ion-item>
 
-      <ion-item>
-        <ion-label position="floating">Teléfono</ion-label>
-        <ion-input [(ngModel)]="celular" name="celular" placeholder="+56 9 1234 5678" required></ion-input>
-      </ion-item>
+          <!-- Campo para seleccionar la región -->
+          <ion-item>
+            <ion-label>Region:</ion-label>
+            <ion-select [(ngModel)]="region" (ionChange)="onRegionChange()" placeholder = 'Seleccione su región' required>
+              <ion-select-option *ngFor="let region of regionId" [value]="region.Id_Region">{{ region.Nombre_Region }}</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-      <!-- Campo para seleccionar la región -->
-      <ion-item>
-        <ion-label position="floating">Region</ion-label>
-        <ion-select [(ngModel)]="region" (ionChange)="onRegionChange()" placeholder = 'Seleccione su región' required>
-          <ion-select-option *ngFor="let region of regionId" [value]="region.Id_Region">{{ region.Nombre_Region }}</ion-select-option>
-        </ion-select>
-      </ion-item>
+          <!-- Campo para seleccionar la comuna -->
+          <ion-item>
+            <ion-label>Comuna:</ion-label>
+            <ion-select [(ngModel)]="comuna" placeholder = 'Seleccione su comuna' required>
+              <ion-select-option *ngFor="let comuna of comunaId" [value]="comuna.Id_Comuna">{{ comuna.Nombre_Comuna }}</ion-select-option>
+            </ion-select>                      
+          </ion-item>
+  
+          
+          <!-- Contraseña del usuario -->
+          <ion-item>
+            <ion-input label="Contraseña:" type="password" [(ngModel)]="password" required></ion-input>
+            <ion-icon slot="end" name="key-outline"></ion-icon>
+          </ion-item>
 
-      <!-- Campo para seleccionar la comuna -->
-      <ion-item>
-        <ion-label position="floating">Comuna</ion-label>
-        <ion-select [(ngModel)]="comuna" placeholder = 'Seleccione su comuna' required>
-          <ion-select-option *ngFor="let comuna of comunaId" [value]="comuna.Id_Comuna">{{ comuna.Nombre_Comuna }}</ion-select-option>
-        </ion-select>                      
-      </ion-item>
+          <!-- Confirmación de contraseña -->
+          <ion-item>
+            <ion-input label="Confirmar Contraseña:" [type]="showPassword ? 'text' : 'password'" [(ngModel)]="ConfirmPassword" required></ion-input>
+            <ion-icon slot="end" name="{{showPassword ? 'eye-off-outline' : 'eye-outline'}}" (click)="togglePassword()"></ion-icon>
+          </ion-item>
+          
+          <!-- Campo para aceptar términos y condiciones -->
+          <ion-row class="A1 ion-align-items-center">
+            <ion-col size="12">
+              <p>
+                Prometo que soy mayor de 18 años 
+                <ion-checkbox [(ngModel)]="AceptaCondiciones" required></ion-checkbox>
+              </p>
+            </ion-col>
+          </ion-row>
 
-      <ion-item lines="none">
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input
-          [type]="showPassword ? 'text' : 'password'"
-          [(ngModel)]="password"
-          placeholder="Ingresa tu contraseña"
-        ></ion-input>
-        <ion-icon
-          slot="end"
-          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-          (click)="togglePassword()"
-        ></ion-icon>
-      </ion-item>
+          <!-- Botón para crear la cuenta -->
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="12" class="ion-text-center">
+              <ion-button class="botonA2" expand="block" (click)="SingUp()"><strong>Crear Cuenta</strong></ion-button>
+            </ion-col>
+          </ion-row>
 
-      <ion-item>
-        <ion-label position="floating">Confirma tu contraseña</ion-label>
-        <ion-input   [type]="showPassword ? 'text' : 'password'" [(ngModel)]="ConfirmPassword" name="ConfirmPassword" type="password" required placeholder="Ingresa tu contraseña una vez más"></ion-input>
-      </ion-item>
-
-      <ion-item lines="none">
-        <ion-checkbox [(ngModel)]="AceptaCondiciones" name="condiciones" slot="start"></ion-checkbox>
-        <ion-label>Términos y condiciones</ion-label>
-      </ion-item>
-
-      <ion-button expand="block" type="submit" class="submit-button">
-        Crear cuenta
-      </ion-button>
-    </form>
-
-    <p class="login-link">
-      ¿Ya tienes una cuenta? <a [routerLink]="['/login']">Vuelve e inicia sesión</a>
-    </p>
-  </div>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

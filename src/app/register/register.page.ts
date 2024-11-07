@@ -48,21 +48,6 @@ export class RegisterPage {
       console.error('Error al obtener comunas:', error);
     });
   }
-
-  // Da un formato al rut 
-  formatRut() {
-    let rutClean = this.rut.replace(/[^\dkK]/g, '');
-
-    // Formatea el RUT con puntos y guion
-    if (rutClean.length > 1) {
-      this.rut = rutClean.replace(/^(\d{1,2})(\d{3})(\d{3})([\dkK])$/, '$1.$2.$3-$4');
-    } else {
-      this.rut = rutClean;
-    }
-  }
-  cleanRut(rut: string): string {
-  return rut.replace(/\./g, '');
-}
   
 
   // Método para alternar la visibilidad de la contraseña
@@ -96,11 +81,10 @@ export class RegisterPage {
     }
 
     // Validar el rut
-  const rutRegex = /^\d{1,2}\.\d{3}\.\d{3}-[kK\d]$/;
-  if (!rutRegex.test(this.rut)) {
-    this.presentAlert('Error', 'Ingrese un RUT válido.');
-    return;
-
+    const rutRegex = /^\d{7,8}-[kK\d]$/;
+    if (!rutRegex.test(this.rut)) {
+      this.presentAlert('Error','Ingrese un RUT válido.');
+      return;
     }
 
     // Validar el formato del correo
@@ -129,7 +113,7 @@ export class RegisterPage {
       return;
     }
 
-    // Validar Región
+    // Validar comuna
     if (!this.regionId) {
       this.presentAlert('Error','Debe seleccionar una región.');
       return;
