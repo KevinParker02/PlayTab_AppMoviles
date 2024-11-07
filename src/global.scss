@@ -35,3 +35,36 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; 
 @import "@ionic/angular/css/palettes/dark.system.css";*/
+
+//Estilos personalizados
+body, ion-app {
+  font-family: 'Poppins';
+}
+
+ion-label, ion-title, ion-input, ion-button {
+  font-family: 'Poppins', sans-serif;
+}
+
+
+ion-button {
+    display: flex;
+    padding: 17px 20px;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+      var(--button-gradient-start),
+      var(--button-gradient-end)
+    );
+    color: white;
+    border-radius: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    --background: none; /* Desactiva el color de fondo predeterminado */
+    --background-activated: rgba(255, 255, 255, 0.3); /* Efecto al hacer clic */
+    --box-shadow:none;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }  

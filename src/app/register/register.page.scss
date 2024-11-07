@@ -1,118 +1,44 @@
-.fondo{
-    --background: linear-gradient(135deg, #FFA500, #FF8C00); /* Degradado más naranja */
-}
-
-.singup-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding-top: 30px;
-    margin: 0;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
-
-.cont-titulo {
-    padding-bottom: 30px;
-
-    ion-title {
-        font-size: 30px;
-        color: white;
-    }
-}
-
-.cont-singup {
-    padding-bottom: 30px;
-    height: 85vh;
-}
-
-.form {
-    max-width: 300px; /* Ancho máximo del formulario */
-    margin: 0 auto;
-    background: none;
-
-    ion-icon {
-        color: white;
-    }
-
-    p {
-        color: white;
-    }
-
-    ion-item {
-        --background: transparent;
-        border-color: white;
-        color: white;
-        border-style: solid;
-        margin-bottom: 10px; /* Espacio entre los campos */
-        border-width: 1px; /* Grosor del borde reducido */
-        border-radius: 5px;
-        padding: 8px 10px; /* Ajusté el padding para que sean más delgados */
-    }
-
-    ion-input {
-        font-size: 12px;
-    }
-
-    .A1 {
-        display: flex;
-        padding-bottom: 8px;
-        font-size: 9px;
-    }
-
-    .botonA2 {
-        --background: white;    /* "--" sobreescribe los estilos */
-        --background-activated: #cdcdcd;  
-        --color: black;
-        --box-shadow: none;
-        text-transform: none;         
-        min-width: 300px;
-        height: auto; /* Ajuste automático de altura */
-        font-size: 13px;
-        padding: 15px; /* Espacio alrededor del botón */
-    }
-
-    .acuerdo {
-        text-decoration: none;
-        color: white;
-    }
-}
-
-@media (min-width: 380px) {
-    .cont-titulo {
-        ion-title {
-            font-size: 36px;
+.register-page {
+    --background: #fff;
+  
+    .register-container {
+      padding: 16px;
+      text-align: center;
+  
+      h1 {
+        font-size: 24px;
+        font-weight: 600;
+      }
+  
+      .subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+        color: #666;
+      }
+  
+      ion-item {
+        --highlight-color-focused: #000;
+        --border-color: #e0e0e0;
+        margin-top: 8px;
+      }
+  
+      .submit-button {
+        margin-top: 16px;
+        --background: linear-gradient(45deg, #00c853, #b2ff59);
+        --background-hover: linear-gradient(45deg, #00b248, #9cff57);
+        --color: #fff;
+        font-weight: 500;
+      }
+  
+      .login-link {
+        margin-top: 12px;
+        font-size: 14px;
+  
+        a {
+          color: #007bff;
+          text-decoration: none;
         }
+      }
     }
-
-    .form {
-        max-width: 360px; /* Ancho máximo del formulario */
-        
-        ion-item {
-            padding: 8px 10px; /* Padding ajustado para que sean más delgados */
-            border-width: 1px; /* Grosor del borde reducido */
-        }
-
-        .A1 {
-            padding-bottom: 8px;
-            font-size: 11px;
-
-            .save {
-                font-size: 9px;
-                color: black; 
-            }  
-        }
-
-        ion-input {
-            font-size: 16px;
-        }
-
-        .botonA2 {       
-            min-width: 260px;
-            height: 80px; /* Altura del botón */
-            padding-bottom: 10px; /* Padding ajustado */
-            font-size: 16px;
-            font-weight: normal;
-        }
-    }
-}
+  }
+  

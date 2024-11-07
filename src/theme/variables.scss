@@ -1,2 +1,6 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
+:root {
+    --button-gradient-start: #8CE144; /* Color inicial del gradiente */
+    --button-gradient-end: #21C935;   /* Color final del gradiente */
+  }

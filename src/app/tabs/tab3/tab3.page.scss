@@ -52,7 +52,6 @@ ion-header {
 
 ion-card-title {
   font-size: 1.5rem; 
-  font-family: 'Roboto', sans-serif; 
   font-weight: 700;
   color: #FF8C00; 
 }
@@ -66,9 +65,7 @@ ion-card-title {
   text-align: center;
 
   ion-button {
-    --background: #FF8C00; 
     --border-radius: 50px; 
-    font-family: 'Roboto', sans-serif; 
     font-weight: 600;
     padding: 10px 25px; 
     color: white; 
@@ -81,7 +78,6 @@ ion-card-title {
 ///de aqui abasjo es para la seccion sobre mí
 .Abt-me {
   font-size: 22px; 
-  font-family: 'Roboto', sans-serif; 
   color: #FF8C00;
   font-weight: 700;
   border-bottom: 2px solid #FF8C00; 
@@ -106,7 +102,6 @@ ion-item ion-icon {
 
 ////configuracion modo silencioso y oscuro
 ion-list-header {
-  font-family: 'Roboto', sans-serif; 
   font-weight: 600;
   font-size: 1.2rem;
   color: #FF8C00;
