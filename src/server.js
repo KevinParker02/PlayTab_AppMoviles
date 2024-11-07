@@ -15,7 +15,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'root', // Cambia si tu contraseña es diferente
-  database: 'PlayTab'
+  database: 'OutMate'
 });
 
 // Conexión a la base de datos MySQL
