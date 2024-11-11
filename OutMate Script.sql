@@ -83,12 +83,12 @@ CREATE TABLE IF NOT EXISTS `OutMate`.`USUARIO` (
   CONSTRAINT `FK_Usuario_Comuna`
     FOREIGN KEY (`Id_Comuna`)
     REFERENCES `OutMate`.`COMUNA` (`Id_Comuna`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Usuario_EstadoActividad`
     FOREIGN KEY (`Id_Estado`)
     REFERENCES `OutMate`.`ESTADO_ACTIVIDAD` (`Id_Estado`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB, auto_increment=100;
 
@@ -109,27 +109,27 @@ CREATE TABLE IF NOT EXISTS `OutMate`.`ACTIVIDAD` (
   CONSTRAINT `FK_Actividad_Comuna`
     FOREIGN KEY (`Id_Comuna`)
     REFERENCES `OutMate`.`COMUNA` (`Id_Comuna`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Actividad_SubCategoria`
     FOREIGN KEY (`Id_SubCategoria`)
     REFERENCES `OutMate`.`SUBCATEGORIA` (`Id_SubCategoria`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Actividad_MaxJugador`
     FOREIGN KEY (`Id_MaxJugador`)
     REFERENCES `OutMate`.`MAXJUGADOR` (`Id_MaxJugador`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Actividad_Estado`
     FOREIGN KEY (`Id_Estado`)
     REFERENCES `OutMate`.`ESTADO_ACTIVIDAD` (`Id_Estado`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Actividad_Anfitrion` 
     FOREIGN KEY (`Id_Anfitrion_Actividad`)
     REFERENCES `OutMate`.`USUARIO` (`Id_User`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB, auto_increment=1000;
 
@@ -150,10 +150,10 @@ CREATE TABLE FAVORITO (
     `Id_User` INT NOT NULL, 
     `Id_SubCategoria` INT NULL,
     FOREIGN KEY (`Id_User`) REFERENCES  `OutMate`.`USUARIO`(`Id_User`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
     FOREIGN KEY (`Id_SubCategoria`) REFERENCES  `OutMate`.`ACTIVIDAD`(`Id_SubCategoria`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 );
 
@@ -165,17 +165,17 @@ CREATE TABLE IF NOT EXISTS `OutMate`.`PARTICIPANTE` (
   CONSTRAINT `FK_Participante_Actividad`
     FOREIGN KEY (`Id_Actividad`)
     REFERENCES `OutMate`.`ACTIVIDAD` (`Id_Actividad`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Participante_Usuario`
     FOREIGN KEY (`Id_User`)
     REFERENCES `OutMate`.`USUARIO` (`Id_User`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Participante_Asistencia`
     FOREIGN KEY (`Id_Asistencia`)
     REFERENCES `OutMate`.`ASISTENCIA` (`Id_Asistencia`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
@@ -198,12 +198,12 @@ CREATE TABLE IF NOT EXISTS `OutMate`.`CLASIFICACION` (
   CONSTRAINT `FK_Clasificacion_User`
     FOREIGN KEY (`Id_User`)
     REFERENCES `OutMate`.`USUARIO` (`Id_User`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Clasificacion_NomClasificacion`
     FOREIGN KEY (`Id_NomClasificacion`)
     REFERENCES `OutMate`.`NOMBRE_CLASIFICACION` (`Id_NomClasificacion`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
@@ -224,12 +224,12 @@ CREATE TABLE IF NOT EXISTS `OutMate`.`REPORTE` (
   CONSTRAINT `FK_Reporte_User`
     FOREIGN KEY (`Id_User`)
     REFERENCES `OutMate`.`USUARIO` (`Id_User`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Reporte_UserReportar`
     FOREIGN KEY (`Id_User_Reportar`)
     REFERENCES `OutMate`.`USUARIO` (`Id_User`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
@@ -242,17 +242,17 @@ CREATE TABLE IF NOT EXISTS `OutMate`.`HISTORIAL` (
   CONSTRAINT `FK_Historial_Usuario`
     FOREIGN KEY (`Id_User`)
     REFERENCES `OutMate`.`USUARIO` (`Id_User`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Historial_Actividad`
     FOREIGN KEY (`Id_Actividad`)
     REFERENCES `OutMate`.`ACTIVIDAD` (`Id_Actividad`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Historial_SubCategoria`
     FOREIGN KEY (`Id_SubCategoria`)
     REFERENCES `OutMate`.`ACTIVIDAD` (`Id_SubCategoria`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION
 ) ENGINE = InnoDB;
 
@@ -325,8 +325,23 @@ END //
 
 DELIMITER ;
 
+-- Trigger para eliminar usuario.
+DELIMITER //
 
+CREATE TRIGGER EliminarUsuario
+AFTER DELETE ON USUARIO
+FOR EACH ROW
+BEGIN
+    -- Elimina los registros relacionados en la tabla actividad
+    DELETE FROM clasificacion WHERE Id_User = OLD.Id_User;
+    DELETE FROM reporte WHERE Id_User = OLD.Id_User;
+    DELETE FROM favorito WHERE Id_User = OLD.Id_User;
+    DELETE FROM participante WHERE Id_User = OLD.Id_User;
+    DELETE FROM ACTIVIDAD WHERE Id_Anfitrion_Actividad = OLD.Id_User;
+    DELETE FROM historial WHERE Id_User = OLD.Id_User;
+END //
 
+DELIMITER ;
 
 -- Inserción en REGION
 INSERT INTO `OutMate`.`REGION` (`Id_Region`,`Nombre_Region`) VALUES 
@@ -454,4 +469,12 @@ LEFT JOIN imagen i ON s.Id_SubCategoria = i.Id_SubCategoria
 WHERE a.Id_Comuna = 200 and Fecha_TER_Actividad>=now();
 
 DELETE FROM USUARIO
-WHERE Id_User=105;
+WHERE Id_User=102;
+
+
+DELETE FROM clasificacion WHERE Id_User = 102;
+DELETE FROM reporte WHERE Id_User = 102;
+DELETE FROM favorito WHERE Id_User = 102;
+DELETE FROM participante WHERE Id_User = 102;
+DELETE FROM actividad WHERE Id_Anfitrion_Actividad = 102;
+DELETE FROM historial WHERE Id_User = 102;

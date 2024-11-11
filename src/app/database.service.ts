@@ -124,6 +124,6 @@ export class DatabaseService {
    //9. Método para eliminar usuario
    deleteUsuario(Id_User: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/borrarUser/${Id_User}`);
-  }  
+  } 
 
 }
