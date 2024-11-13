@@ -280,7 +280,7 @@ END //
 
 DELIMITER ;
 
--- Trigger para que se inscriba en las horas establecidad y no se inscriba repetidas veces.
+-- Trigger para que se inscriban participantes
 DELIMITER //
 
 CREATE PROCEDURE InscribirParticipanteSimple(
@@ -288,42 +288,13 @@ CREATE PROCEDURE InscribirParticipanteSimple(
     IN p_Id_User INT
 )
 BEGIN
-    DECLARE max_jugadores INT;
-    DECLARE jugadores_inscritos INT;
-    DECLARE fecha_inicio DATETIME;
-    DECLARE fecha_fin DATETIME;
-
-    -- Obtener la cantidad máxima de jugadores para la actividad
-    SELECT m.Cantidad_MaxJugador INTO max_jugadores
-    FROM `OutMate`.`ACTIVIDAD` a
-    JOIN `OutMate`.`MAXJUGADOR` m ON a.Id_MaxJugador = m.Id_MaxJugador
-    WHERE a.Id_Actividad = p_Id_Actividad;
-
-    -- Contar los jugadores ya inscritos en la actividad
-    SELECT COUNT(*) INTO jugadores_inscritos
-    FROM `OutMate`.`PARTICIPANTE`
-    WHERE Id_Actividad = p_Id_Actividad;
-
-    -- Obtener la fecha de inicio y fin de la actividad
-    SELECT Fecha_INI_Actividad, Fecha_TER_Actividad INTO fecha_inicio, fecha_fin
-    FROM `OutMate`.`ACTIVIDAD`
-    WHERE Id_Actividad = p_Id_Actividad;
-
-    -- Validaciones: Verificar horario y cupo máximo
-    IF NOW() NOT BETWEEN fecha_inicio AND fecha_fin THEN
-        SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = 'La inscripción no está permitida fuera del horario de la actividad.';
-    ELSEIF jugadores_inscritos >= max_jugadores THEN
-        SIGNAL SQLSTATE '45000' 
-        SET MESSAGE_TEXT = 'No se puede inscribir más jugadores, se alcanzó el máximo permitido.';
-    ELSE
-        -- Insertar el participante en la actividad
-        INSERT INTO `OutMate`.`PARTICIPANTE` (Id_Actividad, Id_User, Id_Asistencia)
-        VALUES (p_Id_Actividad, p_Id_User, 1); -- 1: Asistencia predeterminada
-    END IF;
+    -- Insertar el participante en la actividad sin validaciones
+    INSERT INTO `OutMate`.`PARTICIPANTE` (Id_Actividad, Id_User, Id_Asistencia)
+    VALUES (p_Id_Actividad, p_Id_User, 1); -- 1: Asistencia predeterminada
 END //
 
 DELIMITER ;
+
 
 -- Trigger para eliminar usuario.
 DELIMITER //
@@ -411,13 +382,14 @@ VALUES
 ('98765432-1', 'Ana Gómez', 'ana.gomez@gmail.com', 'def67890','+56933334444', '1985-10-25', '2024-09-21', 200, 15, 15), 
 ('23456789-0', 'Luis Martínez', 'luis.martinez@gmail.com', 'ghi23456','+56955556666', '1992-07-30', '2024-09-21', 100, 15, 20), 
 ('34567890-2', 'Marta López', 'marta.lopez@gmail.com', 'jkl78901','+56977778888', '1995-01-20', '2024-09-21', 300, 15, 25), 
-('45678901-3', 'Carlos Fernández', 'carlos.fernandez@gmail.com', 'mno34567','+56999991010', '1988-12-12', '2024-09-21', 100, 15, 30);
+('45678901-3', 'Carlos Fernández', 'carlos.fernandez@gmail.com', 'mno34567','+56999991010', '1988-12-12', '2024-09-21', 100, 15, 30),
+('45678901-K', 'Kevin', 'a@gmail.com', '1111','+56999991010', '1989-12-12', '2024-10-21', 100, 15, 30);
 
 -- Inserción en ACTIVIDAD
 INSERT INTO `OutMate`.`ACTIVIDAD` 
 (`Nom_Actividad`, `Desc_Actividad`, `Direccion_Actividad`,`Id_MaxJugador`, `Fecha_INI_Actividad`, `Fecha_TER_Actividad`, `Id_Comuna`, `Id_SubCategoria`, `Id_Estado`, `Id_Anfitrion_Actividad`) VALUES
 ('Torneo de Fútbol', 'Competencia de fútbol amateur', 'Dirección de torneo',110, '2024-09-30 10:00:00', '2024-09-30 12:00:00', 100, 20001, 15, 100), -- Juan Pérez
-('Salida en Kayak', 'Encuentro para ir en Kayak en Puerto Varas', 'Puerto Varas',20, '2024-10-01 16:00:00', '2024-10-01 18:00:00', 200, 10002, 15, 101), -- Ana Gómez
+('Salida en Kayak', 'Encuentro para ir en Kayak en Puerto Varas', 'Puerto Varas',20, '2024-11-12 16:00:00', '2024-11-13 01:00:00', 100, 10002, 15, 101), -- Ana Gómez
 ('Caminata por el Lago', 'Caminata grupal alrededor del lago', 'Dirección de caminata',60, '2024-10-02 09:00:00', '2024-10-02 11:00:00', 300, 10001, 15, 102); -- Luis Martínez
 
 -- Inserción en Favorito
@@ -464,17 +436,21 @@ FROM ACTIVIDAD a
 Inner Join usuario u on a.Id_Anfitrion_Actividad = u.Id_User
 INNER JOIN maxjugador m ON a.Id_Maxjugador = m.Id_Maxjugador 
 INNER JOIN subcategoria s ON s.Id_SubCategoria = a.Id_SubCategoria 
-INNER JOIN CATEGORIA C ON s.Id_Categoria = C.Id_Categoria 
+INNER JOIN CATEGORIA C ON s.Id_Categoria = C.Id_Categoria
+JOIN participante p ON p.Id_User=a.Id_Anfitrion_Actividad
 LEFT JOIN imagen i ON s.Id_SubCategoria = i.Id_SubCategoria 
-WHERE a.Id_Comuna = 200 and Fecha_TER_Actividad>=now();
+WHERE a.Id_Comuna = 100 and Fecha_TER_Actividad>=now();
 
 DELETE FROM USUARIO
 WHERE Id_User=102;
 
+SELECT Nom_Actividad 
+FROM ACTIVIDAD
+Where Nom_Actividad="Torneo de Fútbol";
 
-DELETE FROM clasificacion WHERE Id_User = 102;
-DELETE FROM reporte WHERE Id_User = 102;
-DELETE FROM favorito WHERE Id_User = 102;
-DELETE FROM participante WHERE Id_User = 102;
-DELETE FROM actividad WHERE Id_Anfitrion_Actividad = 102;
-DELETE FROM historial WHERE Id_User = 102;
+SELECT COUNT(Id_User) FROM `PlayTab`.`PARTICIPANTE` WHERE Id_Actividad = 1001;
+    
+SELECT m.Cantidad_MaxJugador
+    FROM `PlayTab`.`ACTIVIDAD` a
+    JOIN `PlayTab`.`MAXJUGADOR` m ON a.Id_MaxJugador = m.Id_MaxJugador
+    WHERE a.Id_Actividad = 1003;

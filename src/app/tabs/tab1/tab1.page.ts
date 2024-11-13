@@ -14,9 +14,9 @@ import { WeatherService } from '../../weather.service';
 export class Tab1Page implements OnInit, OnDestroy {
   weatherData: any;
   weatherIconUrl: string = '';
-  actividades: any[] = []; // Almacenar las actividades
-  coloresActividades: string[] = []; // Array para almacenar los colores
-  actividadesAleatorias: any[] = []; //Almacenar actividades aleatorias
+  actividades: any[] = []; 
+  coloresActividades: string[] = []; 
+  actividadesAleatorias: any[] = []; 
   colors = [
     'col-card1', 'col-card2', 'col-card3', 'col-card4', 'col-card5'
   ];
@@ -33,13 +33,20 @@ export class Tab1Page implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     const user = this.localS.ObtenerUsuario('user');
-    console.log('Usuario:', user);
+    if (!user) {
+      return;
+    }
+
     this.cargarActividades();
     this.getLocationAndWeather();
-
+    
     this.intervalId = setInterval(() => {
-      this.cargarActividades();
-    }, 100000); // 1 minuto
+      if (this.localS.ObtenerUsuario('user')) {
+        this.cargarActividades();
+      } else {
+        clearInterval(this.intervalId); 
+      }
+    }, 100000);
   }
 
   ngOnInit() {
