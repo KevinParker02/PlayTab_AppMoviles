@@ -7,6 +7,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content
+        pullingText="Desliza hacia abajo para refrescar"
+        refreshingSpinner="crescent"
+        refreshingText="Actualizando actividades...">
+      </ion-refresher-content>
+    </ion-refresher>
+
     <!-- Barra de busaqueda -->
     <ion-toolbar>
       <ion-searchbar></ion-searchbar>
