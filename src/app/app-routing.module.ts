@@ -59,10 +59,14 @@ const routes: Routes = [
     loadChildren: () => import('./reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
   },
   {
+    path: 'cambiacomuna',
+    loadChildren: () => import('./cambiacomuna/cambiacomuna.module').then( m => m.CambiacomunaPageModule),
+    canActivate:[authGuard]
+  },
+  {
     path: '**',
     loadChildren: () => import('./e404/e404.module').then(m => m.E404PageModule)
-  }
-
+  },
 ];
 
 @NgModule({
