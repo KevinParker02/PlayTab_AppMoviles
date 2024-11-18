@@ -17,13 +17,15 @@
             <div class="card-title-container">
               <ion-card-title class="tit-card-cont">{{ actividad.Nom_Actividad }}</ion-card-title>
             </div>
-            <ion-card-subtitle class="date-cont">{{ actividad.Fecha_TER_Actividad | date:'short' }}</ion-card-subtitle>
           </ion-card-header>
           <ion-card-content class="card-contenid">
-            <p>{{ actividad.Nom_SubCategoria }}</p>
+            <p>Fecha de la actividad: {{ actividad.Fecha_TER_Actividad | date:'yyyy-MM-dd' }}</p>
           </ion-card-content>
           <ion-card-content class="card-contenid">
-            <p>{{ actividad.Nom_SubCategoria }}</p>
+            <p>Tipo de actividad: {{ actividad.Nom_SubCategoria }}</p>
+          </ion-card-content>
+          <ion-card-content class="card-contenid">
+            <p>Anfitrion de la actividad: {{ actividad.Nom_User }}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>
