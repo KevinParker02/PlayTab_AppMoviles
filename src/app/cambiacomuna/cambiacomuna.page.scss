@@ -1,9 +1,3 @@
-.fondo{
-    --background: #f46b45;  /* fallback for old browsers */
-    --background: -webkit-linear-gradient(to top, #eea849, #f46b45);  /* Chrome 10-25, Safari 5.1-6 */
-    --background: linear-gradient(to top, #eea849, #f46b45); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
-}
-
 .singup-container {
     position: relative;
     display: flex;
@@ -19,7 +13,7 @@
 
     ion-title {
         font-size: 30px;
-        color: white;
+        color: rgb(21, 21, 21);
         white-space: normal;
         overflow-wrap: break-word; 
     }
@@ -36,17 +30,17 @@
     background: none;
 
     ion-icon {
-        color: white;
+        color: rgb(21, 21, 21);
     }
 
     p {
-        color: white;
+        color: rgb(21, 21, 21);
     }
 
     ion-item {
         --background: transparent;
         border-color: white;
-        color: white;
+        color: rgb(21, 21, 21);
         border-style: solid;
         margin-bottom: 10px; /* Espacio entre los campos */
         border-width: 1px; /* Grosor del borde reducido */
@@ -62,18 +56,6 @@
         display: flex;
         padding-bottom: 8px;
         font-size: 9px;
-    }
-
-    .botonA2 {
-        --background: white;    /* "--" sobreescribe los estilos */
-        --background-activated: #cdcdcd;  
-        --color: black;
-        --box-shadow: none;
-        text-transform: none;         
-        min-width: 300px;
-        height: auto; /* Ajuste automático de altura */
-        font-size: 13px;
-        padding: 15px; /* Espacio alrededor del botón */
     }
 
     .acuerdo {
@@ -111,12 +93,5 @@
             font-size: 16px;
         }
 
-        .botonA2 {       
-            min-width: 260px;
-            height: 80px; /* Altura del botón */
-            padding-bottom: 10px; /* Padding ajustado */
-            font-size: 16px;
-            font-weight: normal;
-        }
     }
 }
