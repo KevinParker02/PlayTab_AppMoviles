@@ -1,0 +1,72 @@
+
+.custom-header {
+    background: transparent;
+    .back-arrow {
+      font-size: 24px;
+      color: #000;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+  }
+  
+  .content-container {
+    padding: 0 41px;
+  
+    .activity-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 13px 41px 33px 41px;
+      text-align: left;
+    }
+  
+    .activity-details {
+      margin: 41px;
+      margin-bottom: 12px;
+  
+      .activity-name {
+        color: #21C935;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+  
+      .activity-info {
+        font-size: 14px;
+        color: #757575;
+        margin-bottom: 12px;
+  
+        span {
+          color: #656565;
+          font-weight: bold;
+        }
+      }
+    }
+  
+    .inscription-period {
+      margin: 41px;
+      margin-bottom: 57px;
+  
+      h3 {
+        font-size: 16px;
+        color: #21C935;
+        font-weight: bold;
+        margin-bottom: 12px;
+      }
+  
+      .activity-info {
+        font-size: 14px;
+        color: #757575;
+        margin-bottom: 12px;
+  
+        span {
+          color: #656565;
+          font-weight: bold;
+        }
+      }
+    }
+  
+  }
+
+  .button-container{
+    margin: 41px;
+  }

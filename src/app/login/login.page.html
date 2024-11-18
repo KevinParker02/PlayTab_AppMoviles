@@ -1,34 +1,44 @@
-<ion-content class="ion-padding">
-  <div class="login-container">
-    <ion-img src="assets/icon/favicon.png" class="logo"></ion-img>
+<ion-header>
+  <ion-toolbar></ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <img src="assets/icon/favicon.png" alt="Logo" class="logo" />
     <h1>Inicia sesión en OutMate.</h1>
 
-    <ion-item lines="none">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="email" [(ngModel)]="mailuser" placeholder="Ingresa tu correo"></ion-input>
-    </ion-item>
+    <div class="input-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Ingresa tu correo"
+        [(ngModel)]="mailuser"
+      />
+    </div>
 
-    <ion-item lines="none">
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input
-        [type]="showPassword ? 'text' : 'password'"
-        [(ngModel)]="password"
-        placeholder="Ingresa tu contraseña"
-      ></ion-input>
-      <ion-icon
-        slot="end"
-        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
-        (click)="togglePassword()"
-      ></ion-icon>
-    </ion-item>
+    <div class="input-group">
+      <label for="password">Contraseña</label>
+      <div class="password-input">
+        <input
+          id="password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Ingresa tu contraseña"
+          [(ngModel)]="password"
+        />
+        <ion-icon
+          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          (click)="togglePassword()"
+        ></ion-icon>
+      </div>
+    </div>
 
-    <a (click)="recover()" class="forgot-password">¿Olvidaste tu contraseña?</a>
+    <a class="forgot-password" (click)="recover()">¿Olvidaste tu contraseña?</a>
 
-    <ion-button expand="block" (click)="login()" class="login-button">Ingresar</ion-button>
+    <ion-button expand="block" (click)="login()">Ingresar</ion-button>
 
-    <p class="register-link">
-      ¿Aún no tienes una cuenta en OutMate?
-      <a (click)="signup()">Regístrate aquí</a>
+    <p class="signup-text">
+      ¿Aún no tienes una cuenta en OutMate? <a (click)="signup()">Regístrate aquí</a>
     </p>
   </div>
 </ion-content>

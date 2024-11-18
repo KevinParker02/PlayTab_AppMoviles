@@ -37,12 +37,8 @@
 @import "@ionic/angular/css/palettes/dark.system.css";*/
 
 //Estilos personalizados
-body, ion-app {
+*{
   font-family: 'Poppins';
-}
-
-ion-label, ion-title, ion-input, ion-button {
-  font-family: 'Poppins', sans-serif;
 }
 
 .header-md {
@@ -72,3 +68,21 @@ ion-button {
       filter: brightness(1.1);
     }
   }  
+
+  ion-tab-bar{
+    --background: linear-gradient(
+      var(--button-gradient-start),
+      var(--button-gradient-end)
+    );
+    margin: 22px;
+    width: 330px;
+    flex-shrink: 0;
+    border-radius: 21px;
+    align-self: center;
+    box-shadow: 0px 51px 80px 0px rgba(0, 0, 0, 0.07), 0px 21.307px 33.422px 0px rgba(0, 0, 0, 0.05), 0px 11.392px 17.869px 0px rgba(0, 0, 0, 0.04), 0px 6.386px 10.017px 0px rgba(0, 0, 0, 0.04), 0px 3.392px 5.32px 0px rgba(0, 0, 0, 0.03), 0px 1.411px 2.214px 0px rgba(0, 0, 0, 0.02);
+  }
+
+  ion-toolbar{
+    --background: #ffffff !important;
+    box-shadow: none !important;
+  }

@@ -1,56 +1,58 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="toolbar">
-    <ion-buttons slot="start">
-      <ion-button>
-        
-      </ion-button>
-    </ion-buttons>
-    <div class="toolbar-logo-container">
-      <ion-img class="logoW" src="../../assets/img/logo.png"></ion-img>
+        <div class="toolbar-container">
+      <label class="toolbar-text">Inicio</label>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <h1 class="actividades-rapidas">¿Cómo estará el clima para tu actividad?</h1>
-  <ion-card *ngIf="weatherData">
-    <ion-card-header>
-      <ion-card-title>{{ weatherData.name }}</ion-card-title>
-    </ion-card-header>
+  <h1 class="weather-header">¿Cómo estará el clima hoy?</h1>
+
+  <ion-card class="weather-card" *ngIf="weatherData">
     <ion-card-content>
       <div class="weather-info">
-        <div class="weather-details">
-          <p>Temperatura: {{ weatherData.main.temp }} °C</p>
-          <p>Descripción: {{ weatherData.weather[0].description }}</p>
-          <p>Humedad: {{ weatherData.main.humidity }}%</p>
+        <p class="humidity">Humedad {{ weatherData.main.humidity }}%</p>
+        <h2 class="weather-detail">{{ weatherData.weather[0].description | titlecase }}</h2>
+        <div class="temperature">
+          <span class="temp">{{ weatherData.main.temp }}</span>
+          <span class="celsius">°C</span>
         </div>
-        <img *ngIf="weatherIconUrl" [src]="weatherIconUrl" alt="Icono del clima" class="weather-icon" />
+        <p class="location">{{ weatherData.name }}, {{ weatherData.sys.country }}</p>
       </div>
     </ion-card-content>
   </ion-card>
+
   <ion-card *ngIf="!weatherData">
     <ion-card-header>
       <ion-card-title>Cargando clima...</ion-card-title>
     </ion-card-header>
   </ion-card>
 
-  <h1 class="actividades-rapidas">Actividades Rápidas</h1>
-  <ion-card *ngFor="let actividad of actividadesAleatorias; let i = index" [ngClass]="coloresActividades[i]" (click)="onCardClick(actividad)">
-    <ion-card-header>
-      <img class="img" [src]="actividad.Url || 'assets/portrait/nocover.jpg'" alt="{{ actividad.Nom_Actividad }}" />
-      <div class="card-title-container">
-        <ion-card-title>{{ actividad.Nom_Actividad }}</ion-card-title>
-      </div>
-      <ion-card-subtitle>{{ actividad.Fecha_INI_Actividad | date:'short' }}</ion-card-subtitle>
-    </ion-card-header>
+
+  <h1 class="actividades-rapidas">Actividades</h1>
   
-    <ion-card-content>
-      <p>{{ actividad.Nom_SubCategoria }}</p>
-      <p>{{ actividad.Desc_Actividad }}</p>
-      <p>Dirección: {{ actividad.Direccion_Actividad }}</p>
-      <p>Jugadores: {{ actividad.Cantidad_MaxJugador }}</p>
-    </ion-card-content>
-  </ion-card>
+  <!-- Actividades -->
+  <div class="list-container">
+    <div *ngFor="let actividad of actividades" class="card-list" (click)="onCardClick(actividad)">
+      <img [src]="actividad.Url || 'assets/portrait/nocover.jpg'" alt="Actividad" class="card-image" />
+      
+      <div class="card-info-container">
+        <!-- Título -->
+        <h2 class="card-title">{{ actividad.Nom_Actividad }}</h2>
+  
+        <!-- Subtítulo -->
+        <p class="card-subtitle">{{ actividad.Nom_SubCategoria }}</p>
+  
+        <!-- Información -->
+        <p class="card-info">Participantes: {{ actividad.Cantidad_MaxJugador }}</p>
+        <p class="card-info">Dirección: {{ actividad.Direccion_Actividad }}</p>
+
+        <p class="card-date-time">{{ actividad.Fecha_INI_Actividad | date: 'medium' }}</p>
+      </div>
+    </div>
+
+  </div>  
   
 </ion-content>

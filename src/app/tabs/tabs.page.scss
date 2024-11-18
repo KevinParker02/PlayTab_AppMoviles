@@ -1,25 +1,33 @@
-ion-header {
-  .toolbar {
-    --background: linear-gradient(135deg, #FFA500, #FF8C00);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-    position: relative; /* Asegura el posicionamiento relativo para centrar el logo */
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-  }
-  ion-buttons {
+ion-tab-bar {
+  border-top: 1px solid #ddd;
+  width: 330px;
+  height: 78px;
+  flex-shrink: 0;
+  border-radius: 21px;
+  box-shadow: 0px 51px 80px 0px rgba(0, 0, 0, 0.07), 0px 21.307px 33.422px 0px rgba(0, 0, 0, 0.05), 0px 11.392px 17.869px 0px rgba(0, 0, 0, 0.04), 0px 6.386px 10.017px 0px rgba(0, 0, 0, 0.04), 0px 3.392px 5.32px 0px rgba(0, 0, 0, 0.03), 0px 1.411px 2.214px 0px rgba(0, 0, 0, 0.02);
+
+  ion-tab-button {
+    color: rgba(255, 255, 255, 0.6);
+
     ion-icon {
-      font-size: 30px;
-      color: #000;
+      font-size: 24px;
+      color: white;
+    }
+
+    ion-label {
+      font-size: 12px;
+      color: white;
+    }
+
+    &.selected-tab {
+      ion-icon {
+        color: #ffffff; 
+      }
+
+      ion-label {
+        font-weight: normal;
+        color: #ffffff;
+      }
     }
   }
-  .logoW {
-    max-width: 100px;
-    height: auto;
-  }
 }
-// Importar fuente personalizada
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-

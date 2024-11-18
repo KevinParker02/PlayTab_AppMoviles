@@ -1,33 +1,43 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="toolbar">
-    <div class="toolbar-logo-container">
-      <ion-img class="logoW" src="../../assets/img/logo.png"></ion-img>
+    <div class="toolbar-container">
+      <label class="toolbar-text">Categorias</label>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
     <!-- Barra de busaqueda -->
-    <ion-toolbar>
-      <ion-searchbar></ion-searchbar>
+    <ion-toolbar class="searchbar-container">
+      <ion-searchbar placeholder="Search" show-clear-button="focus"></ion-searchbar>
     </ion-toolbar>
 
     <!-- Actividades -->
-    <ion-card *ngFor="let actividad of actividades; let i = index" [ngClass]="coloresActividades[i]" (click)="onCardClick(actividad)">
-      <ion-card-header>
-        <div class="card-title-container">
-          <ion-card-title>{{ actividad.Nom_Actividad }}</ion-card-title>
-        </div>
-        <ion-card-subtitle>{{ actividad.Fecha_INI_Actividad | date:'short' }}</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <img class="img" [src]="actividad.Url || 'assets/portrait/nocover.jpg'" alt="{{ actividad.Nom_Actividad }}" />
-        <p>{{ actividad.Nom_SubCategoria }}</p>
-        <p>{{ actividad.Desc_Actividad }}</p>
-        <p>Dirección: {{ actividad.Direccion_Actividad }}</p>
-        <p>Jugadores: {{ actividad.Cantidad_MaxJugador }}</p>
-      </ion-card-content>
-    </ion-card>
+    <div class="card-container">
+      <ion-card *ngFor="let actividad of actividades" class="custom-card" (click)="onCardClick(actividad)">
+        <div
+          class="card-image"
+          [style.backgroundImage]="'url(' + (actividad.Url || 'assets/portrait/nocover.jpg') + ')'"
+        ></div>
+    
+        <ion-card-content class="card-content">
+          <div class="card-date-time">
+            {{ actividad.Fecha_INI_Actividad | date: 'medium' }}
+          </div>
+    
+          <div class="card-title">
+            {{ actividad.Nom_Actividad }}
+          </div>
+    
+          <div class="card-info">
+            <p>{{ actividad.Nom_SubCategoria }}</p>
+            <p>{{ actividad.Desc_Actividad }}</p>
+            <p>Dirección: {{ actividad.Direccion_Actividad }}</p>
+            <p>Participantes: {{ actividad.Cantidad_MaxJugador }}</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
   
   <!-- Aquí irá la parte para registrar actividad -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="BotonFlotante">

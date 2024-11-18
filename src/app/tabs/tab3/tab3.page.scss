@@ -1,114 +1,86 @@
-////estilo header
-ion-header {
-  .toolbar {
-    --background: linear-gradient(135deg, #ff6600, #c0b626);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px; 
-    position: relative;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
-  }
-  
-  ion-buttons {
-    ion-icon {
-      font-size: 30px; 
-      color: #fff; 
-      margin-left: -10px;
-    }
-  }
-
-  .logoW {
-    max-width: 90px; 
-    height: auto;
-    margin: 0 auto;
-    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2)); 
-  }
+ion-content {
+  --padding-start: 41px;
+  --padding-end: 41px;
 }
 
-/////personaliza imagen y tarjeta de perfil
+//Header
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px; 
+  position: relative;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.toolbar-container{
+  text-align: center;
+}
+
+.toolbar-text {
+  color: #000;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.165px;
+}
+
+//Sección de perfil
 .profile-card {
-  padding: 20px; 
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  border: 2px solid #FF8C00; 
-  border-radius: 15px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); 
-  background: #fff; 
   margin-bottom: 20px;
+  padding-top: 15px;
+  box-shadow: none;
 }
 
+//Avatar
 .avatar-centered {
-  width: 100px; 
-  height: 100px;
-  margin-bottom: 10px;
+  width: 87px;
+  height: 87px;
   border-radius: 50%;
-  border: 4px solid #FF8C00; 
+  margin-bottom: 15px; 
 }
 
 ion-card-title {
   font-size: 1.5rem; 
   font-weight: 700;
-  color: #FF8C00; 
 }
 
-///// estilo de los botones
-.container-cerr {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  ion-button {
-    --border-radius: 50px; 
-    font-weight: 600;
-    padding: 10px 25px; 
-    color: white; 
-    transition: background-color 0.1s; 
-    border: 2px solid transparent; 
-  }
-
+//Listas y Secciones
+.list-section {
+  margin-top: 15px;
 }
 
-///de aqui abasjo es para la seccion sobre mí
-.Abt-me {
-  font-size: 22px; 
-  color: #FF8C00;
-  font-weight: 700;
-  border-bottom: 2px solid #FF8C00; 
-  margin-bottom: 15px;
-}
-
-ion-item {
-  --background: #fff; 
-  border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 15px; 
-}
-////color del icono
-ion-icon {
-  color: #FF8C00; 
-}
-
-///tamaño de iconos
-ion-item ion-icon {
-  font-size: 24px; 
-}
-
-////configuracion modo silencioso y oscuro
 ion-list-header {
   font-weight: 600;
   font-size: 1.2rem;
-  color: #FF8C00;
   margin-bottom: 10px;
+  color: #333;
 }
 
-ion-toggle {
-  --handle-background: #FF8C00; /* Color del toggle */
-  
+ion-item {
+  --background: #fff;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+ion-item ion-icon {
+  color: #8CE144;
+  font-size: 20px;
+}
+
+//Botones
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+ion-button {
+  --border-radius: 20px;
+  width: 48%;
 }

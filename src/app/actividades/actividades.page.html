@@ -2,17 +2,14 @@
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
     </ion-buttons>
-    <div class="toolbar-logo-container">
-      <ion-img class="logoW" src="../../assets/img/logo.png"></ion-img>
+    <div class="ion-no-border">
+      <ion-title>¡Crea tu actividad!</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <div class="ion-no-border">
-    <ion-title>¡Crea tu actividad!</ion-title>
-  </div>
 
   <!-- Datos de la actividad -->
   <div class="section-title">Datos de la actividad</div>
@@ -76,7 +73,7 @@
 
   <!-- Botones de acción -->
   <ion-item lines="none">
-    <ion-button expand="block" color="primary" (click)="crearActividad()">Crear</ion-button>
-    <ion-button expand="block" color="medium" (click)="volver()">Volver</ion-button>
+    <ion-button expand="block" (click)="crearActividad()">Crear</ion-button>
+    <ion-button expand="block" (click)="volver()">Volver</ion-button>
   </ion-item>
 </ion-content>

@@ -60,7 +60,7 @@ export class LoginPage {
     }
   } catch (error: any) {
     if (error.status === 401) {
-      this.presentAlert('Credenciales incorrectas o el usuario no existe en PlayTab.');
+      this.presentAlert('Credenciales incorrectas o el usuario no existe en OutMate.');
     } else {
       this.presentAlert('Error del servidor. Por favor intenta de nuevo más tarde :(');
     }

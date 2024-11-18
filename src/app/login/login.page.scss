@@ -1,62 +1,89 @@
-.login-container {
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  gap: 20px;
+  margin: 80px 0;
+
+  .logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 20px;
+  }
+
+  .input-group {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+    align-items: flex-start;
+    gap: 15px;
+    width: 323px;
 
-    .login-page {
-      --background: #F6F6F6;}
-  
-    .logo {
-      width: 100px;
-      height: 100px;
-      margin-bottom: 20px;
-    }
-  
-    h1 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 20px;
+    label {
+      font-size: 0.9rem;
+      font-weight: normal;
       color: #333;
     }
-  
-    ion-item {
-      width: 90%;
-      margin-bottom: 15px;
-  
-      ion-input {
-        font-size: 1rem;
+
+    input {
+      background: #ffff;
+      width: 100%;
+      height: 52px;
+      padding: 10px 0px 10px 15px;
+      border-radius: 15px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      outline: none;
+      font-size: 1rem;
+
+      &::placeholder {
+        color: #aaa;
       }
-  
+    }
+
+    .password-input {
+      width: 22rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
       ion-icon {
-        cursor: pointer;
-        color: #666;
-      }
-    }
-  
-    .forgot-password {
-      color: #459006;
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-      cursor: pointer;
-      text-align: right;
-      width: 90%;
-    }
-  
-    .login-button {
-        width: 90%;
-        margin-top: 10px;
-      }
-  
-    .register-link {
-      font-size: 0.9rem;
-      margin-top: 20px;
-      text-align: center;
-      a {
-        color: #459006;
+        font-size: 1.2rem;
         cursor: pointer;
       }
     }
   }
-  
+
+  .forgot-password {
+    font-size: 0.9rem;
+    color: #459006;
+    cursor: pointer;
+    text-decoration: none;
+    margin-top: -10px;
+  }
+
+  ion-button {
+    --border-radius: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .signup-text {
+    width: 20rem;
+    font-weight: 300;
+    color: #000;
+
+    a {
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+    }
+  }
+}

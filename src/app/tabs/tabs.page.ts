@@ -6,10 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tabs.page.scss']
 })
 export class TabsPage implements OnInit {
+  selectedTab: string = 'tab1'; // Pestaña activa por defecto
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
+  setSelectedTab(tab: string) {
+    this.selectedTab = tab; // Cambia la pestaña seleccionada
+  }
 }

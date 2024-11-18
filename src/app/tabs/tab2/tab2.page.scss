@@ -1,6 +1,5 @@
 ion-header {
   .toolbar {
-    --background: linear-gradient(135deg, #ff6600, #c0b626);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,7 +7,19 @@ ion-header {
     position: relative;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
+  }
+
+  .toolbar-container{
+    text-align: center;
+  }
+
+  .toolbar-text {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.165px;
   }
   
   ion-buttons {
@@ -17,13 +28,6 @@ ion-header {
       color: #fff; 
       margin-left: -10px;
     }
-  }
-
-  .logoW {
-    max-width: 90px; 
-    height: auto;
-    margin: 0 auto;
-    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2)); 
   }
 }
 
@@ -37,76 +41,84 @@ ion-header {
 }
 
 .colorFab{
-  --background: linear-gradient(135deg, #ff6600, #c0b626);
+  --background: linear-gradient(135deg, #8CE144, #21C935);
 }
-
-
-// Font personalizado para escritura
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
 // barra de busqueda
-ion-searchbar {
-  margin-bottom: auto;
-  --background: white; /* Color de fondo del campo de búsqueda */
-  --border-radius: 5px; /* Bordes redondeados */
-  --color: black; /* Color del texto */
-  --placeholder-color: #cf551c; /* Color del texto del placeholder */
+.searchbar-container {
+  ion-searchbar {
+    width: 330px;
+    height: 54px;
+    --background: var(--Primary-Base-White, #fff);
+    border-radius: 17px;
+    --box-shadow: none;
+    border: 1px solid #dfdfdf;
+    margin: 10px auto;
+  }
 }
 
-// Textos
-.actividades-rapidas {
-  margin-left: 15px;
-  font-weight: 700;
-}
-
-// Colores de las tarjetas
-ion-card.col-card1 {
-  background-color: #FF9999;
-  color: black;
-  box-shadow: 0px 0px 10px red;
-  border: 2px solid #FF9999;
-}
-
-ion-card.col-card2 {
-  background-color: #99CCFF;
-  color: black;
-  box-shadow: 0px 0px 10px blue;
-  border: 2px solid #99CCFF;
-}
-
-ion-card.col-card3 {
-  background-color: #77dd77;
-  color: black;
-  box-shadow: 0px 0px 10px green;
-  border: 2px solid #77dd77;
-}
-
-ion-card.col-card4 {
-  background-color: #ffcc99;
-  color: black;
-  box-shadow: 0px 0px 10px orange;
-  border: 2px solid #ffcc99;
-}
-
-ion-card.col-card5 {
-  background-color: #d1c4e9;
-  color: black;
-  box-shadow: 0px 0px 10px purple;
-  border: 2px solid #d1c4e9;
-}
-
-// Diseño de la card
-ion-card {
-  margin-top: 30px;
-  padding: 10px;
-}
-
-// Contenedor título de la card
-.card-title-container {
+.card-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 80%;
-  text-align: center;
-  font-weight: 700;
+  gap: 20px; // Espacio entre las tarjetas
+
+  .custom-card {
+    width: 330px;
+    height: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background-color: #000;
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.7); 
+    }
+
+    .card-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+      color: #fff;
+
+      .card-date-time {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 400;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 4px 8px;
+        border-radius: 10px;
+        align-self: center;
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 12px;
+      }
+
+      .card-info {
+        font-size: 14px;
+        font-weight: 400;
+        margin-top: 8px;
+        text-align: center;
+        line-height: 1.4;
+
+        p {
+          margin: 2px 0;
+        }
+      }
+    }
+  }
 }
