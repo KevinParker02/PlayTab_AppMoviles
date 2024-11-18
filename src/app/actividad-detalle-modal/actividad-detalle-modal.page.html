@@ -6,19 +6,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="content-container">
-  <!-- Título -->
-  <h1 class="activity-title">¡Únete a esta actividad!</h1>
-
-  <!-- Detalles de la actividad -->
-  <div class="activity-details">
-    <h2 class="activity-name">{{ actividad.Nom_Actividad }}</h2>
-    <p class="activity-info"><span>Anfitrión:</span> {{ actividad.Nom_User }}</p>
-    <p class="activity-info"><span>Descripción:</span> {{ actividad.Desc_Actividad }}</p>
-    <p class="activity-info"><span>Dirección:</span> {{ actividad.Direccion_Actividad }}</p>
-    <p class="activity-info"><span>Subcategoría:</span> {{ actividad.Nom_SubCategoria }}</p>
-    <p class="activity-info"><span>Participantes:</span> {{ actividad.Cantidad_MaxJugador }}</p>
-  </div>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Sección de encabezado de la actividad -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ actividad.Nom_Actividad }}</ion-card-title>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <p><strong>Anfitrión :</strong> {{ actividad.Nom_User }}</p>
+      <p><strong>Descripción:</strong> {{ actividad.Desc_Actividad }}</p>
+      <p><strong>Dirección:</strong> {{ actividad.Direccion_Actividad }}</p>
+      <p><strong>Categoría:</strong> {{ actividad.Nom_Categoria }}</p>
+      <p><strong>Subcategoría:</strong> {{ actividad.Nom_SubCategoria }}</p>
+      <p><strong>Jugadores:</strong> Máximo {{ actividad.Cantidad_MaxJugador }}</p>
+    </ion-card-content>
+  </ion-card>
 
   <!-- Lapso de inscripción -->
   <div class="inscription-period">

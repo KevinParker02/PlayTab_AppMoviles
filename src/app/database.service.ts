@@ -107,6 +107,11 @@ export class DatabaseService {
     return this.http.get(`${this.apiUrl}/actividades?Id_Comuna=${Id_Comuna}`);
   }
 
+  //7.1 Jugadores actuales en sesión.
+  getJugadores(Id_Actividad: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/jugdoresInscritos?Id_Actividad=${Id_Actividad}`);
+  }
+
   //8. Método para registrar al participante
   registerParticipante(idActividad: number, idUser: number, idAsistencia: number = 800): Observable<any> {
     const url = `${this.apiUrl}/participante`;
@@ -124,6 +129,24 @@ export class DatabaseService {
    //9. Método para eliminar usuario
    deleteUsuario(Id_User: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/borrarUser/${Id_User}`);
-  }  
+  }
+  
+  //10.Método par cambiar la comuna del usuario.
+  cambiarComuna(idComuna: number, idUser: number): Observable<any> {
+    const url = `${this.apiUrl}/cambiaComuna`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  
+    const body = {
+      Id_Comuna: idComuna,
+      Id_User: idUser,
+    };
+  
+    return this.http.put(url, body, { headers });
+  }
+
+   //11. Obtener actividades
+   getHistorial(Id_User: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/historial?Id_User=${Id_User}`);
+  }
 
 }

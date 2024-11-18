@@ -15,7 +15,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: 'root', // Cambia si tu contraseña es diferente
-  database: 'PlayTab'
+  database: 'OutMate'
 });
 
 // Conexión a la base de datos MySQL
@@ -281,6 +281,18 @@ app.get('/actividades', (req, res) => {
   });
 });
 
+app.get('/jugdoresInscritos', (req, res) => {
+  const { Id_Actividad } = req.query;
+  const query = 'SELECT COUNT(Id_Actividad) FROM `OutMate`.`PARTICIPANTE` WHERE Id_Actividad = ?;';
+  db.query(query, [Id_Actividad], (err, results) => {
+    if (err) {
+      console.error('Error:', err);
+      return res.status(500).json({ error: 'Error al obtener los jugadores inscritos' });
+    }
+    res.json(results);
+  });
+});
+
 // Función para insertar participante en la Actividad
 app.post('/participante', (req, res) => {
   const { Id_Actividad, Id_Asistencia, Id_User } = req.body;
@@ -317,6 +329,48 @@ app.delete('/borrarUser/:Id_User', (req, res) => {
     } else {
       res.status(200).json({ message: 'Usuario eliminado con éxito :D' });
     }
+  });
+});
+
+// Cambiar la comuna
+app.put('/cambiaComuna', (req, res) => {
+  const { Id_Comuna, Id_User } = req.body;
+
+  if (!Id_Comuna || !Id_User) {
+    return res.status(400).json({ error: 'Faltan datos requeridos' });
+  }
+
+  const query = `
+    UPDATE USUARIO 
+    SET Id_Comuna= ? 
+    WHERE Id_User = ?;
+  `;
+
+  db.query(query, [Id_Comuna, Id_User], (err, result) => {
+    if (err) {
+      console.error('Error al actualizar la comuna:', err);
+      return res.status(500).json({ error: 'Error al actualizar la comuna' });
+    }
+    res.status(201).json({ message: 'Comuna actualizada exitosamente' });
+  });
+});
+
+//Ver el historial de actividades
+app.get('/historial', (req, res) => {
+  const { Id_User } = req.query;
+  const query = `SELECT DISTINCT a.Nom_Actividad, u.Nom_User AS Nombre_Anfitrion, a.Fecha_INI_Actividad, a.Fecha_TER_Actividad, s.Nom_SubCategoria, i.url
+                  FROM Participante p
+                  JOIN ACTIVIDAD a ON p.Id_Actividad = a.Id_Actividad
+                  JOIN USUARIO u ON a.Id_Anfitrion_Actividad = u.Id_User
+                  LEFT JOIN subcategoria s ON s.Id_SubCategoria = a.Id_SubCategoria
+                  LEFT JOIN imagen i ON a.Id_SubCategoria = i.Id_SubCategoria
+                  WHERE p.Id_User = ?;`
+  db.query(query, [Id_User], (err, results) => {
+    if (err) {
+      console.error('Error al obtener el historial:', err);
+      return res.status(500).json({ error: 'Error al obtener el historial' });
+    }
+    res.json(results);
   });
 });
 
