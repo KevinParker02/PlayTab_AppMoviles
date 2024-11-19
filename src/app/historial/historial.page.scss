@@ -1,94 +1,109 @@
 ion-header {
-    .toolbar {
-      --background: #f46b45;  /* fallback for old browsers */
-      --background: -webkit-linear-gradient(to top, #eea849, #f46b45);  /* Chrome 10-25, Safari 5.1-6 */
-      --background: linear-gradient(to top, #eea849, #f46b45); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px; 
-      position: relative;
-      border-bottom-left-radius: 15px;
-      border-bottom-right-radius: 15px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
-    }
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px; 
+    position: relative;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
 
-    .logoW {
-        max-width: 90px; 
-        height: auto;
-        margin: 0 auto;
-        filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2)); 
-      }
+  .toolbar-container{
+    text-align: center;
+  }
 
+  .toolbar-text {
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.165px;
+  }
 }
 
-ion-button {
-    --background: #FF8C00; 
-    --border-radius: 50px; 
-    font-family: 'Roboto', sans-serif; 
-    font-weight: 600;
-    padding: 10px 25px; 
-    color: white; 
-    transition: background-color 0.1s; 
-    border: 2px solid transparent; 
-  }
+.img {
+  width: 100px; /* Ajusta el tamaño según lo que necesites */
+  height: 100px;
+  object-fit: cover; /* Mantiene la proporción sin deformar */
+  border-radius: 8px; /* Añade bordes redondeados si lo prefieres */
+  margin: 10px auto; /* Centra la imagen */
+  display: block;
+}
 
-  .colorFab {
-    --background: linear-gradient(135deg, #ff6600, #c0b626);
-  }
-  
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
-  
-  
-  .actividades-rapidas {
-    margin-left: 15px;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-  }
-  
-  ion-card {
-    margin-top: 15px;
-    padding: 10px;
-    border-radius: 10px;
-  }
-  
-  .tit-card-cont{
-    color: white;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    font-size: 25px;
-  }
-  .date-cont{
-    color: white;
-    font-size: 15px;
-  }
-  .card-contenid{
-    color: white;
-  }
-  
-  .card-title-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin-bottom: 15px;
-  }
-  
-  .card-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    filter: blur(1px); 
-    z-index: 1;
-  }
+.colorFab{
+  --background: linear-gradient(135deg, #8CE144, #21C935);
+}
 
-  ion-card-header,
-  ion-card-content {
-    z-index: 2; 
-    border-radius: 5px;
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; // Espacio entre las tarjetas
+
+  .custom-card {
+    width: 330px;
+    height: 320px;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    background-color: #000;
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.7); 
+    }
+
+    .card-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+      color: #fff;
+
+      .card-date-time {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 400;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 4px 8px;
+        border-radius: 10px;
+        align-self: center;
+      }
+
+      .card-title {
+        font-size: 20px;
+        font-weight: 600;
+        text-align: center;
+        margin-top: 12px;
+      }
+
+      .card-info {
+        font-size: 14px;
+        font-weight: 400;
+        margin-top: 8px;
+        text-align: center;
+        line-height: 1.4;
+
+        p {
+          margin: 2px 0;
+        }
+      }
+    }
   }
+}
+
+.icono {
+  font-size: 24px; 
+  width: 24px; 
+  height: 24px;
+}

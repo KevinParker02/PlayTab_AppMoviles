@@ -1,35 +1,40 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="toolbar">
-    <div class="toolbar-logo-container">
-      <ion-img class="logoW" src="../../assets/img/logo.png"></ion-img>
+    <ion-buttons (click)="volver()" slot="start">
+      <ion-icon class="icono" name="arrow-back-outline"></ion-icon>
+    </ion-buttons>
+    <div class="toolbar-container">
+      <label class="toolbar-text">Historial de Actividades</label>
     </div>
-  </ion-toolbar>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
   
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" *ngFor="let actividad of actividades; let i = index">
-        <ion-card class="card-container">
-          <div class="card-background" [style.backgroundImage]="'url(' + (actividad.url || '/assets/portrait/nocover.jpg') + ')'"></div>
-          <ion-card-header>
-            <div class="card-title-container">
-              <ion-card-title class="tit-card-cont">{{ actividad.Nom_Actividad }}</ion-card-title>
-            </div>
-          </ion-card-header>
-          <ion-card-content class="card-contenid">
-            <p>Fecha de la actividad: {{ actividad.Fecha_TER_Actividad | date:'yyyy-MM-dd' }}</p>
-          </ion-card-content>
-          <ion-card-content class="card-contenid">
-            <p>Tipo de actividad: {{ actividad.Nom_SubCategoria }}</p>
-          </ion-card-content>
-          <ion-card-content class="card-contenid">
-            <p>Anfitrion de la actividad: {{ actividad.Nom_User }}</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div class="card-container">
+    <ion-card *ngFor="let actividad of actividades" class="custom-card">
+      <div
+        class="card-image"
+        [style.backgroundImage]="'url(' + (actividad.url || '/assets/portrait/nocover.jpg') + ')'"
+      ></div>
+  
+      <ion-card-content class="card-content">
+        <div class="card-date-time">
+          {{ actividad.Fecha_TER_Actividad | date: 'medium' }}
+        </div>
+  
+        <div class="card-title">
+          {{ actividad.Nom_Actividad }}
+        </div>
+  
+        <div class="card-info">
+          <p>{{ actividad.Nom_SubCategoria }}</p>
+          <p>{{ actividad.Desc_Actividad }}</p>
+          <p>Dirección: {{ actividad.Direccion_Actividad }}</p>
+          <p>Participantes: {{ actividad.Cantidad_MaxJugador }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
 </ion-content>

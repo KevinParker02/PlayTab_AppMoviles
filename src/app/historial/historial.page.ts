@@ -50,4 +50,8 @@ export class HistorialPage implements OnInit {
     );
   }
 
+  volver(){
+    this.router.navigate(['./tabs/tab3']);
+  }
+
 }
