@@ -16,6 +16,8 @@ export class Tab3Page implements OnInit {
   correoUser: string = '';
   regionUser: string = '';
   comunaUser: string = '';
+  catgoria: string = '';
+  subcategoria: string = '';
 
   constructor(private router:Router, private localS : LocalStorageService, private dataBase: DatabaseService, private alertController: AlertController) { }
 
@@ -44,6 +46,8 @@ export class Tab3Page implements OnInit {
       this.telefonoUser = usuario.Celular_User;
       this.regionUser = usuario.Nombre_Region;
       this.comunaUser = usuario.Nombre_Comuna;
+      this.catgoria = usuario.Nom_Categoria;
+      this.subcategoria = usuario.Nom_SubCategoria;
     } else {
       console.warn('No se encontró información del usuario en el LocalStorage.');
     }

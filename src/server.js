@@ -207,12 +207,16 @@ app.post('/login', (req, res) => {
 
   const query = `
   SELECT 
-    Id_User, Nom_User, Correo_User, Celular_User, 
-    COMUNA.Id_Comuna, COMUNA.Nombre_Comuna, 
-    REGION.Id_Region, REGION.Nombre_Region 
-  FROM USUARIO 
-  INNER JOIN COMUNA ON USUARIO.Id_Comuna = COMUNA.Id_Comuna 
-  INNER JOIN REGION ON COMUNA.Id_Region = REGION.Id_Region 
+    u.Id_User, u.Nom_User, u.Correo_User, u.Celular_User, 
+    c.Id_Comuna, c.Nombre_Comuna, 
+    r.Id_Region, r.Nombre_Region, f.Id_SubCategoria, s.Nom_SubCategoria,
+    ca.Id_Categoria, ca.Nom_Categoria
+  FROM USUARIO u
+  INNER JOIN COMUNA c ON u.Id_Comuna = c.Id_Comuna 
+  INNER JOIN REGION r ON c.Id_Region = r.Id_Region
+  INNER JOIN FAVORITO f on u.Id_User=f.Id_User
+  INNER JOIN SUBCATEGORIA s on f.Id_SubCategoria=s.Id_SubCategoria
+  INNER JOIN CATEGORIA ca on s.Id_Categoria = ca.Id_Categoria
   WHERE Correo_User = ? AND Contra_User = ?`;
   db.query(query, [Correo_User, Contra_User], (err, result) => {
     if (err) {
