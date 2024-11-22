@@ -226,6 +226,7 @@ app.post('/login', (req, res) => {
     return res.status(400).json({ error: 'Correo y contraseña son requeridos' });
   }
 
+
   const query = `SELECT Id_User, Nom_User, Correo_User, Contra_User, Celular_User, 
                  COMUNA.Id_Comuna, COMUNA.Nombre_Comuna, 
                  REGION.Id_Region, REGION.Nombre_Region 
@@ -235,6 +236,7 @@ app.post('/login', (req, res) => {
                  WHERE Correo_User = ?`;
 
   db.query(query, [Correo_User], async (err, results) => {
+
     if (err) {
       console.error('Error during login:', err);
       return res.status(500).json({ error: 'Error en el servidor' });

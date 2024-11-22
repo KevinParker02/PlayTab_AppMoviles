@@ -45,6 +45,12 @@
         <ion-label>{{regionUser}} > {{comunaUser}}</ion-label>
         <a (click)="cambiarComuna()"><ion-icon name="pencil-outline" slot="end"></ion-icon></a>
       </ion-item>
+
+      <ion-item>
+        <ion-icon name="bookmark-outline" slot="start"></ion-icon>
+        <ion-label>{{catgoria}} > {{subcategoria}}</ion-label>
+        <a (click)="cambiarComuna()"><ion-icon name="pencil-outline" slot="end"></ion-icon></a>
+      </ion-item>
     </ion-list>
 
    <!-- Sección Configuraciones -->
@@ -55,12 +61,10 @@
     <ion-item>
       <ion-icon name="notifications" slot="start"></ion-icon>
       <ion-label>Modo Silencio</ion-label>
-
       <ion-toggle slot="end"></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-icon name="moon" slot="start"></ion-icon>
-
       <ion-label>Modo Oscuro</ion-label>
       <ion-toggle slot="end"></ion-toggle>
     </ion-item>
