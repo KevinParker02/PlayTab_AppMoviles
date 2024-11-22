@@ -62,12 +62,12 @@ app.post('/recover-password', (req, res) => {
 
       const transporter = nodemailer.createTransport({
         service: 'Gmail',
-        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
+        auth: { user: 'outmate.app@gmail.com', pass: 'imnb pzke ohxc wfdr' }
       });
 
       const resetUrl = `http://localhost:8100/reset-password/${token}`;
       const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: 'outmate.app@gmail.com',
         to: correo,
         subject: 'Recuperación de contraseña',
         text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetUrl}`,
