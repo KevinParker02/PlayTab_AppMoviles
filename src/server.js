@@ -2,7 +2,11 @@ const express = require('express');
 const mysql = require('mysql2');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
 const cors = require('cors'); 
+require('dotenv').config();
+
+
 const app = express();
 const port = 3000;
 
@@ -58,12 +62,12 @@ app.post('/recover-password', (req, res) => {
 
       const transporter = nodemailer.createTransport({
         service: 'Gmail',
-        auth: { user: 'outmate.app@gmail.com', pass: 'imnb pzke ohxc wfdr' }
+        auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS }
       });
 
       const resetUrl = `http://localhost:8100/reset-password/${token}`;
       const mailOptions = {
-        from: 'outmate.app@gmail.com',
+        from: process.env.EMAIL_USER,
         to: correo,
         subject: 'Recuperación de contraseña',
         text: `Haz clic en el siguiente enlace para restablecer tu contraseña: ${resetUrl}`,
@@ -78,22 +82,33 @@ app.post('/recover-password', (req, res) => {
   });
 });
 
-app.post('/reset-password', (req, res) => {
+app.post('/reset-password', async (req, res) => {
   const { token, newPassword } = req.body;
-  if (!token || !newPassword) return res.status(400).json({ error: 'Token y nueva contraseña son requeridos' });
+
+  if (!token || !newPassword) {
+    return res.status(400).json({ error: 'Token y nueva contraseña son requeridos' });
+  }
 
   const query = 'SELECT * FROM USUARIO WHERE token = ?';
-  db.query(query, [token], (err, results) => {
+  db.query(query, [token], async (err, results) => {
     if (err) return res.status(500).json({ error: 'Error en el servidor' });
     if (results.length === 0) return res.status(404).json({ error: 'Token inválido o expirado' });
 
-    const updatePasswordQuery = 'UPDATE USUARIO SET Contra_User = ?, token = NULL WHERE token = ?';
-    db.query(updatePasswordQuery, [newPassword, token], (updateErr) => {
-      if (updateErr) return res.status(500).json({ error: 'Error al actualizar la contraseña' });
-      res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
-    });
+    try {
+      const hashedPassword = await bcrypt.hash(newPassword, 10); // Hashear la nueva contraseña
+
+      const updatePasswordQuery = 'UPDATE USUARIO SET Contra_User = ?, token = NULL WHERE token = ?';
+      db.query(updatePasswordQuery, [hashedPassword, token], (updateErr) => {
+        if (updateErr) return res.status(500).json({ error: 'Error al actualizar la contraseña' });
+        res.status(200).json({ message: 'Contraseña actualizada exitosamente' });
+      });
+    } catch (hashErr) {
+      console.error('Error hashing new password:', hashErr);
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
   });
 });
+
 // Aquí terminan las funcionalidades para la recuperación de la contraseña *******************
 
 // 1. Aquí se obtendrá las Regiones y Comunas disponibles para poder registrar al usuario.
@@ -124,28 +139,34 @@ app.get('/comunas/:regionId', (req, res) => {
 
 // 2. Aquí se realizará el INSERT del usuario. 
 // Ruta para registrar un usuario
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   const { Run_User, Nom_User, Correo_User, Contra_User, Celular_User, FechaNac_User, Id_Comuna } = req.body;
 
-  // Verificación de datos
   if (!Run_User || !Nom_User || !Correo_User || !Contra_User || !Celular_User || !FechaNac_User || !Id_Comuna) {
     return res.status(400).json({ error: 'Faltan datos requeridos' });
   }
 
-  // SQL query para insertar el usuario
-  const query = `INSERT INTO USUARIO (Run_User, Nom_User, Correo_User, Contra_User, Celular_User, FechaNac_User, FechaCreacion_User, Id_Comuna, Id_Estado) 
-                 VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, 15)`; // Id_Estado lo dejamos en 1 como estado inicial
+  try {
+    // Hashear la contraseña
+    const hashedPassword = await bcrypt.hash(Contra_User, 10); // Salt rounds = 10
 
-  db.query(query, [Run_User, Nom_User, Correo_User, Contra_User, Celular_User, FechaNac_User, Id_Comuna], (err, result) => {
-    if (err) {
-      console.error('Error inserting user:', err);
-      if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(409).json({ error: 'El usuario ya existe' });
+    const query = `INSERT INTO USUARIO (Run_User, Nom_User, Correo_User, Contra_User, Celular_User, FechaNac_User, FechaCreacion_User, Id_Comuna, Id_Estado) 
+                   VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, 15)`;
+
+    db.query(query, [Run_User, Nom_User, Correo_User, hashedPassword, Celular_User, FechaNac_User, Id_Comuna], (err, result) => {
+      if (err) {
+        console.error('Error inserting user:', err);
+        if (err.code === 'ER_DUP_ENTRY') {
+          return res.status(409).json({ error: 'El usuario ya existe' });
+        }
+        return res.status(500).json({ error: 'Error al registrar el usuario' });
       }
-      return res.status(500).json({ error: 'Error al registrar el usuario' });
-    }
-    res.status(201).json({ message: 'Usuario registrado exitosamente' });
-  });
+      res.status(201).json({ message: 'Usuario registrado exitosamente' });
+    });
+  } catch (err) {
+    console.error('Error hashing password:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
 
 // 2. Aquí se realizará el INSERT de la actividad. 
@@ -205,25 +226,39 @@ app.post('/login', (req, res) => {
     return res.status(400).json({ error: 'Correo y contraseña son requeridos' });
   }
 
-  const query = `
-  SELECT 
-    Id_User, Nom_User, Correo_User, Celular_User, 
-    COMUNA.Id_Comuna, COMUNA.Nombre_Comuna, 
-    REGION.Id_Region, REGION.Nombre_Region 
-  FROM USUARIO 
-  INNER JOIN COMUNA ON USUARIO.Id_Comuna = COMUNA.Id_Comuna 
-  INNER JOIN REGION ON COMUNA.Id_Region = REGION.Id_Region 
-  WHERE Correo_User = ? AND Contra_User = ?`;
-  db.query(query, [Correo_User, Contra_User], (err, result) => {
+  const query = `SELECT Id_User, Nom_User, Correo_User, Contra_User, Celular_User, 
+                 COMUNA.Id_Comuna, COMUNA.Nombre_Comuna, 
+                 REGION.Id_Region, REGION.Nombre_Region 
+                 FROM USUARIO 
+                 INNER JOIN COMUNA ON USUARIO.Id_Comuna = COMUNA.Id_Comuna 
+                 INNER JOIN REGION ON COMUNA.Id_Region = REGION.Id_Region 
+                 WHERE Correo_User = ?`;
+
+  db.query(query, [Correo_User], async (err, results) => {
     if (err) {
       console.error('Error during login:', err);
       return res.status(500).json({ error: 'Error en el servidor' });
     }
 
-    if (result.length > 0) {
-      res.status(200).json({ message: 'Login exitoso', user: result[0] });
-    } else {
-      res.status(401).json({ error: 'Credenciales inválidas' });
+    if (results.length === 0) {
+      return res.status(401).json({ error: 'Credenciales inválidas' });
+    }
+
+    const user = results[0];
+    try {
+      // Comparar la contraseña ingresada con la almacenada
+      const isPasswordValid = await bcrypt.compare(Contra_User, user.Contra_User);
+
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: 'Credenciales inválidas' });
+      }
+
+      // Excluir contraseña antes de enviar la respuesta
+      delete user.Contra_User;
+      res.status(200).json({ message: 'Login exitoso', user });
+    } catch (err) {
+      console.error('Error comparing password:', err);
+      res.status(500).json({ error: 'Error interno del servidor' });
     }
   });
 });
@@ -373,6 +408,52 @@ app.get('/historial', (req, res) => {
     res.json(results);
   });
 });
+
+//Funcion hashear contraseñas ya existentes en SQL
+const actualizarContrasenas = async () => {
+  try {
+    const querySelect = 'SELECT Id_User, Contra_User FROM USUARIO';
+    db.query(querySelect, async (err, users) => {
+      if (err) {
+        console.error('Error al obtener usuarios:', err);
+        return;
+      }
+
+      for (const user of users) {
+        const { Id_User, Contra_User } = user;
+
+        // Saltar si la contraseña ya parece estar hasheada
+        if (Contra_User.startsWith('$2b$')) {
+          console.log(`Contraseña para usuario con ID ${Id_User} ya está hasheada. Saltando...`);
+          continue;
+        }
+
+        try {
+          // Hashear la contraseña
+          const hashedPassword = await bcrypt.hash(Contra_User, 10);
+
+          // Actualizar la base de datos con la contraseña hasheada
+          const queryUpdate = 'UPDATE USUARIO SET Contra_User = ? WHERE Id_User = ?';
+          db.query(queryUpdate, [hashedPassword, Id_User], (updateErr) => {
+            if (updateErr) {
+              console.error(`Error al actualizar la contraseña para ID ${Id_User}:`, updateErr);
+            } else {
+              console.log(`Contraseña para usuario con ID ${Id_User} actualizada correctamente.`);
+            }
+          });
+        } catch (hashErr) {
+          console.error(`Error al hashear la contraseña para ID ${Id_User}:`, hashErr);
+        }
+      }
+    });
+  } catch (err) {
+    console.error('Error en la migración de contraseñas:', err);
+  }
+};
+
+// Llama a esta función manualmente cuando lo necesites
+actualizarContrasenas();
+
 
 // Iniciar el servidor
 app.listen(port, () => {
