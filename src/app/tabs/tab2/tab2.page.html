@@ -20,9 +20,18 @@
       <ion-searchbar placeholder="Search" show-clear-button="focus"></ion-searchbar>
     </ion-toolbar>
 
+    <!-- Filtro por categoría -->
+    <ion-toolbar class="filter-container">
+      <ion-segment [(ngModel)]="filtroCategoria" (ionChange)="filtrarActividades()">
+        <ion-segment-button *ngFor="let categoria of categorias" [value]="categoria">
+          {{ categoria }}
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+
     <!-- Actividades -->
     <div class="card-container">
-      <ion-card *ngFor="let actividad of actividades" class="custom-card" (click)="onCardClick(actividad)">
+      <ion-card *ngFor="let actividad of actividadesFiltradas" class="custom-card" (click)="onCardClick(actividad)">
         <div
           class="card-image"
           [style.backgroundImage]="'url(' + (actividad.Url || 'assets/portrait/nocover.jpg') + ')'"
@@ -46,7 +55,6 @@
         </ion-card-content>
       </ion-card>
     </div>
-  
   <!-- Aquí irá la parte para registrar actividad -->
   <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="BotonFlotante">
     <ion-fab-button expand="block" class="colorFab" (click)="enviarPagAct()">

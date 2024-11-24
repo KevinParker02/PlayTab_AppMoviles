@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { DatabaseService } from 'src/app/database.service';
 import { Router } from '@angular/router';
@@ -6,17 +6,17 @@ import { AlertController, ModalController } from '@ionic/angular';
 import { ActividadDetalleModalPage } from '../../actividad-detalle-modal/actividad-detalle-modal.page';
 
 @Component({
-  selector: 'app-tab2', 
-  templateUrl: './tab2.page.html', 
-  styleUrls: ['./tab2.page.scss'], 
+  selector: 'app-tab2',
+  templateUrl: './tab2.page.html',
+  styleUrls: ['./tab2.page.scss'],
 })
 export class Tab2Page implements OnInit {
   actividades: any[] = [];
+  actividadesFiltradas: any[] = [];
+  categorias: string[] = [];
+  filtroCategoria: string = 'Todas';
   coloresActividades: string[] = [];
-  colors = [
-    'col-card1', 'col-card2', 'col-card3', 'col-card4', 'col-card5'
-  ];
-  private intervalId: any;
+  colors = ['col-card1', 'col-card2', 'col-card3', 'col-card4', 'col-card5'];
 
   constructor(
     private localS: LocalStorageService,
@@ -27,13 +27,10 @@ export class Tab2Page implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    const user = this.localS.ObtenerUsuario('user');
-    this.cargarActividades(); 
+    this.cargarActividades();
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   cargarActividades() {
     const user = this.localS.ObtenerUsuario('user');
@@ -42,19 +39,36 @@ export class Tab2Page implements OnInit {
     this.dbService.getActividades(idComuna).subscribe(
       (data) => {
         this.actividades = data;
+        this.actividadesFiltradas = [...this.actividades];
+        this.categorias = ['Todas', ...new Set(this.actividades.map((act) => act.Nom_SubCategoria))];
+
+        console.log('Actividades cargadas:', this.actividades);
+        console.log('Categorías disponibles:', this.categorias);
+
         this.coloresActividades = this.actividades.map(() => this.getRandomColor());
-        this.actividades.forEach(actividad => {
+        this.actividades.forEach((actividad) => {
           actividad.Url = actividad.Url || 'assets/default-image.jpg';
         });
-        
-        console.log('Actividades:', this.actividades); 
-        console.log('Colores asignados:', this.coloresActividades);
       },
       (error) => {
         console.error('Error al obtener actividades:', error);
         this.presentAlert('Error', 'No se pudieron cargar las actividades.');
       }
     );
+  }
+
+  filtrarActividades() {
+    console.log('Filtro seleccionado:', this.filtroCategoria);
+
+    if (this.filtroCategoria === 'Todas') {
+      this.actividadesFiltradas = [...this.actividades];
+    } else {
+      this.actividadesFiltradas = this.actividades.filter(
+        (act) => act.Nom_SubCategoria.trim().toLowerCase() === this.filtroCategoria.trim().toLowerCase()
+      );
+    }
+
+    console.log('Actividades filtradas:', this.actividadesFiltradas);
   }
 
   async presentAlert(header: string, message: string) {
@@ -76,13 +90,11 @@ export class Tab2Page implements OnInit {
   }
 
   async onCardClick(actividad: any) {
-    console.log('Actividad clickeada:', actividad);
-        
     const modal = await this.modalController.create({
       component: ActividadDetalleModalPage,
-      componentProps: { actividad }
+      componentProps: { actividad },
     });
-        
+
     return await modal.present();
   }
 
