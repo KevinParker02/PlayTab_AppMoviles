@@ -22,11 +22,13 @@
 
     <!-- Filtro por categoría -->
     <ion-toolbar class="filter-container">
-      <ion-segment [(ngModel)]="filtroCategoria" (ionChange)="filtrarActividades()">
-        <ion-segment-button *ngFor="let categoria of categorias" [value]="categoria">
-          {{ categoria }}
-        </ion-segment-button>
-      </ion-segment>
+      <div class="scroll-container">
+        <ion-segment scrollable [(ngModel)]="filtroCategoria" (ionChange)="filtrarActividades()">
+          <ion-segment-button *ngFor="let categoria of categorias" [value]="categoria">
+            {{ categoria }}
+          </ion-segment-button>
+        </ion-segment>
+      </div>
     </ion-toolbar>
 
     <!-- Actividades -->

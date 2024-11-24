@@ -122,3 +122,32 @@ ion-header {
     }
   }
 }
+
+.scroll-container {
+  display: flex;
+  overflow-x: auto; /* Habilitar scroll horizontal */
+  -webkit-overflow-scrolling: touch; /* Suavidad en dispositivos móviles */
+  white-space: nowrap; /* Mantener todo en una línea */
+}
+
+ion-segment {
+  width: 100%; /* Asegurarse de que ocupe todo el ancho */
+}
+
+ion-segment-button {
+  flex-shrink: 0; /* Evitar que los botones se compriman */
+  margin: 0 5px; /* Espaciado entre botones */
+}
+
+.scroll-container::-webkit-scrollbar {
+  height: 6px; /* Altura de la barra de desplazamiento */
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+  background: #ccc; /* Color del scroll */
+  border-radius: 3px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #aaa; /* Color más oscuro al pasar el mouse */
+}
