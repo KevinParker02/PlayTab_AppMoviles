@@ -1,0 +1,18 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>Seleccionar Foto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Cerrar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <ion-button expand="block" (click)="startCapture('camera')">Tomar Foto</ion-button>
+    <ion-button expand="block" (click)="startCapture('gallery')">Elegir de Galería</ion-button>
+    <div *ngIf="foto" class="foto-preview">
+      <img [src]="foto" alt="Foto seleccionada" />
+    </div>
+  </div>
+</ion-content>

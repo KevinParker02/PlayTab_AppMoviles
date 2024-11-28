@@ -7,9 +7,10 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { FotoPerfilOpComponent } from './foto-perfil-op/foto-perfil-op.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,FotoPerfilOpComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

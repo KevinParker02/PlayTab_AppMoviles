@@ -21,9 +21,11 @@
   <!-- Perfil -->
   <ion-card class="profile-card ion-text-center">
     <ion-avatar class="avatar-centered">
-      <img src="../../assets/icon/perfil.png" alt="Foto de perfil" />
-    </ion-avatar>
+      <img [src]="fotoPerfil" alt="Foto de perfil" />
+    </ion-avatar>    
     <ion-card-title>{{nombreUser}}</ion-card-title>
+
+    <ion-button expand="block" (click)="abrirModalFotoPerfil()">Cambiar Foto</ion-button>
   </ion-card>
 
    <!-- Sección Sobre Mí -->

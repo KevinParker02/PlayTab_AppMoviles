@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { DatabaseService } from 'src/app/database.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { FotoPerfilOpComponent } from 'src/app/foto-perfil-op/foto-perfil-op.component';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { response } from 'express';
 
 @Component({
@@ -18,16 +20,21 @@ export class Tab3Page implements OnInit {
   comunaUser: string = '';
   catgoria: string = '';
   subcategoria: string = '';
+  fotoPerfil: string = '../../assets/icon/perfil.png'; // Imagen por defecto
 
-  constructor(private router:Router, private localS : LocalStorageService, private dataBase: DatabaseService, private alertController: AlertController) { }
+  constructor(
+    private router: Router,
+    private localS: LocalStorageService,
+    private dataBase: DatabaseService,
+    private alertController: AlertController,
+    private modalController: ModalController // Declarar aquí
+  ) {}
 
   ionViewWillEnter() {
     this.cargarDatosUsuario();
   }
-  
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
@@ -48,40 +55,67 @@ export class Tab3Page implements OnInit {
       this.comunaUser = usuario.Nombre_Comuna;
       this.catgoria = usuario.Nom_Categoria;
       this.subcategoria = usuario.Nom_SubCategoria;
+      this.fotoPerfil = usuario.Foto_User || '../../assets/icon/perfil.png';
     } else {
       console.warn('No se encontró información del usuario en el LocalStorage.');
     }
   }
 
-  deleteAccount(){
+  async abrirModalFotoPerfil() {
+    const modal = await this.modalController.create({
+      component: FotoPerfilOpComponent,
+      cssClass: 'foto-perfil-modal',
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    if (data && data.fotoNueva) {
+      this.actualizarFotoPerfil(data.fotoNueva);
+    }
+  }
+
+  actualizarFotoPerfil(foto: string) {
+    console.log('Nueva foto de perfil:', foto);
+    this.fotoPerfil = foto;
+    // Aquí puedes agregar lógica para guardar la foto en el backend.
+  }
+
+  deleteAccount() {
     const usuario = this.localS.ObtenerUsuario('user');
     if (usuario && usuario.Id_User) {
       const idUser = usuario.Id_User;
       this.dataBase.deleteUsuario(idUser).subscribe(
         (response) => {
-          this.presentAlert('Lamentamos tu partida :(','Su cuenta ha sido eliminada con éxito.');
+          this.presentAlert(
+            'Lamentamos tu partida :(',
+            'Su cuenta ha sido eliminada con éxito.'
+          );
           this.localS.LimpiarUsuario();
           localStorage.removeItem('isAuthenticated');
           this.router.navigate(['./login']);
         },
         (error) => {
-          this.presentAlert('¿Qué?','Al parecer su cuenta quedará para siempre aquí :3');
+          this.presentAlert(
+            '¿Qué?',
+            'Al parecer su cuenta quedará para siempre aquí :3'
+          );
         }
-      );      
+      );
     } else {
-      this.presentAlert('Error','No se pudo encontrar el ID de usuario');
+      this.presentAlert('Error', 'No se pudo encontrar el ID de usuario');
     }
   }
 
-  cambiarComuna(){
+  cambiarComuna() {
     this.router.navigate(['./cambiacomuna']);
   }
 
-  IrHistorial(){
+  IrHistorial() {
     this.router.navigate(['./historial']);
   }
 
-  logOut(){
+  logOut() {
     this.localS.ElimnarUsuario('user');
     this.localS.LimpiarUsuario();
     localStorage.removeItem('isAuthenticated');
@@ -92,5 +126,4 @@ export class Tab3Page implements OnInit {
     this.cargarDatosUsuario();
     event.target.complete();
   }
-
 }

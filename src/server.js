@@ -4,7 +4,6 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const cors = require('cors'); 
-require('dotenv').config();
 
 
 const app = express();
@@ -409,7 +408,7 @@ app.get('/historial', (req, res) => {
   });
 });
 
-//Funcion hashear contraseñas ya existentes en SQL
+/*//Funcion hashear contraseñas ya existentes en SQL
 const actualizarContrasenas = async () => {
   try {
     const querySelect = 'SELECT Id_User, Contra_User FROM USUARIO';
@@ -452,8 +451,7 @@ const actualizarContrasenas = async () => {
 };
 
 // Llama a esta función manualmente cuando lo necesites
-actualizarContrasenas();
-
+actualizarContrasenas();*/
 
 // Iniciar el servidor
 app.listen(port, () => {
