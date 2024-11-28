@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="toolbar">
-    <ion-buttons (click)="volver()" slot="start">
+    <ion-buttons (click)="Volver()" slot="start">
       <ion-icon class="icono" name="arrow-back-outline"></ion-icon>
     </ion-buttons>
     <div class="toolbar-container">
@@ -30,7 +30,16 @@
         <div class="card-info">
           <p>{{ actividad.Nom_SubCategoria }}</p>
           <p>{{ actividad.Desc_Actividad }}</p>
-          <p>Dirección: {{ actividad.Direccion_Actividad }}</p>
+          <p>
+            Ubicación: 
+            <a 
+              href="https://www.google.com/maps/search/?api=1&query={{ actividad.Direccion_Actividad }}" 
+              target="_blank" 
+              style="text-decoration: none; color: inherit; font-weight: bold;"
+            >
+              {{ actividad.Direccion_Actividad }}
+            </a>
+          </p>
           <p>Celular Anfitrion: {{ actividad.Celular_User }}</p>
         </div>
       </ion-card-content>

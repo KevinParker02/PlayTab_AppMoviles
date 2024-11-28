@@ -111,10 +111,6 @@ export class Tab3Page implements OnInit {
     this.router.navigate(['./cambiacomuna']);
   }
 
-  IrHistorial() {
-    this.router.navigate(['./historial']);
-  }
-
   logOut() {
     this.localS.ElimnarUsuario('user');
     this.localS.LimpiarUsuario();
