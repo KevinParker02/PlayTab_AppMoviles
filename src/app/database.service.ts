@@ -115,16 +115,17 @@ export class DatabaseService {
   }
 
   //8. Método para registrar al participante
-  registerParticipante(idActividad: number, idUser: number, idAsistencia: number = 800): Observable<any> {
+  registerParticipante(idActividad: number, idUser: number, idAsistencia: number = 900, Tipo_Participante = 200): Observable<any> {
     const url = `${this.apiUrl}/participante`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-  
+    
     const body = {
       Id_Actividad: idActividad,
       Id_Asistencia: idAsistencia,
       Id_User: idUser,
+      Tipo_Participante : Tipo_Participante
     };
-  
+    
     return this.http.post(url, body, { headers });
   }
 
@@ -149,6 +150,17 @@ export class DatabaseService {
    //11. Obtener actividades
    getHistorial(Id_User: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/historial?Id_User=${Id_User}`);
+  }
+
+  //12. Obtener actividades activas de un usuario
+   getActividadesActivas(Id_User: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/actividad_activa?Id_User=${Id_User}`);
+  }
+  // Método para eliminar un usuario de una actividad
+  eliminarUsuarioDeActividad(Id_User: number, Id_Actividad: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/eliminar_usuario_actividad`, {
+      params: { Id_User: String(Id_User), Id_Actividad: String(Id_Actividad) },
+    });
   }
 
 }

@@ -11,7 +11,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       return false;
     }
   } else {
-    if (state.url.startsWith('/tabs') || state.url.startsWith('/tab')||state.url.startsWith('/actividades')||state.url.startsWith('/actividad-detalle-modal')||state.url.startsWith('/cambiacomuna')||state.url.startsWith('/historial')) {
+    if (state.url.startsWith('/tabs') || state.url.startsWith('/tab')||state.url.startsWith('/actividades')||state.url.startsWith('/actividad-detalle-modal')||state.url.startsWith('/cambiacomuna')||state.url.startsWith('/historial')||state.url.startsWith('actividad-det-inscrito-modal')) {
       router.navigate(['/login']);
       return false;
     }

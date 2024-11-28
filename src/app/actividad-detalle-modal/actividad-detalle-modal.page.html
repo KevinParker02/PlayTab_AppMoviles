@@ -24,12 +24,16 @@
   </ion-card>
 
   <!-- Lapso de inscripción -->
-  <div class="inscription-period">
-    <h3>Lapso de Inscripción</h3>
-    <p class="activity-info"><span>Fecha:</span> {{ actividad.Fecha_TER_Actividad | date: 'mediumDate' }}</p>
-    <p class="activity-info"><span>Hora de Inicio:</span> {{ actividad.Fecha_INI_Actividad | date: 'shortTime' }}</p>
-    <p class="activity-info"><span>Hora de Término:</span> {{ actividad.Fecha_TER_Actividad | date: 'shortTime' }}</p>
-  </div>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="black">Lapso de Inscripción</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="activity-info"><span>Fecha:</span> {{ actividad.Fecha_TER_Actividad | date: 'mediumDate' }}</p>
+      <p class="activity-info"><span>Hora de Inicio:</span> {{ actividad.Fecha_INI_Actividad | date: 'shortTime' }}</p>
+      <p class="activity-info"><span>Hora de Término:</span> {{ actividad.Fecha_TER_Actividad | date: 'shortTime' }}</p>
+    </ion-card-content>
+  </ion-card>
 
   <!-- Botón Unirse -->
   <div class="button-container">

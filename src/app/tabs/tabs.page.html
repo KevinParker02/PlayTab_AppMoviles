@@ -8,6 +8,10 @@
       <ion-icon [name]="selectedTab === 'tab2' ? 'search' : 'search-outline'"></ion-icon>
     </ion-tab-button>
 
+    <ion-tab-button tab="tab4" [ngClass]="{'selected-tab': selectedTab === 'tab4'}" (click)="setSelectedTab('tab4')">
+      <ion-icon [name]="selectedTab === 'tab4' ? 'play' : 'play-circle-outline'"></ion-icon>
+    </ion-tab-button>
+
     <ion-tab-button tab="tab3" [ngClass]="{'selected-tab': selectedTab === 'tab3'}" (click)="setSelectedTab('tab3')">
       <ion-icon [name]="selectedTab === 'tab3' ? 'person' : 'person-outline'"></ion-icon>
     </ion-tab-button>
