@@ -163,4 +163,8 @@ export class DatabaseService {
     });
   }
 
+  getGoogleMapsKey(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/api/maps-key`);
+  }  
+
 }

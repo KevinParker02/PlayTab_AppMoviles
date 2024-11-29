@@ -110,6 +110,11 @@ app.post('/reset-password', async (req, res) => {
 
 // Aquí terminan las funcionalidades para la recuperación de la contraseña *******************
 
+app.get('/api/maps-key', (req, res) => {
+  const apiKey = 'AIzaSyBI63avQmJjhUVvzJNNkejOOfiJml_zUcE'; // Tu API Key
+  res.json({ apiKey });
+});
+
 // 1. Aquí se obtendrá las Regiones y Comunas disponibles para poder registrar al usuario.
 // Obtener todas las regiones.
 app.get('/regiones', (req, res) => {
