@@ -94,17 +94,35 @@ export class ActividadAnfitrionDetallePage implements OnInit {
     );
   }
 
-  borrarActividad() {
-    this.databaseService.deleteActividad(this.actividad.Id_Actividad).subscribe(
-      () => {
-        this.presentAlert('Éxito', 'La actividad ha sido eliminada correctamente.');
-        this.modalController.dismiss(); // Cierra el modal después de eliminar la actividad
-      },
-      (error) => {
-        console.error('Error al eliminar la actividad:', error);
-        this.presentAlert('Error', 'No se pudo eliminar la actividad. Inténtalo nuevamente.');
-      }
-    );
+  async borrarActividad() {
+    const alert = await this.alertController.create({
+      header: 'Eliminación de actividad',
+      message: '¿Estás seguro de que deseas eliminar esta actividad? Esta acción no se puede deshacer.',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Si',
+          handler: () => {
+            this.databaseService.deleteActividad(this.actividad.Id_Actividad).subscribe(
+              () => {
+                this.presentAlert('Éxito', 'La actividad ha sido eliminada.');
+                this.modalController.dismiss(); // Cierra el modal después de eliminar la actividad
+              },
+              (error) => {
+                console.error('¡Ups!', error);
+                this.presentAlert('Error', 'No se pudo eliminar la actividad. Inténtalo nuevamente.');
+              }
+            );
+          },
+        },
+      ],
+    });
+  
+    await alert.present();
   }
 
   actualizarAsistencia(Id_User: number, Id_Actividad: number, Id_Asistencia: number) {
