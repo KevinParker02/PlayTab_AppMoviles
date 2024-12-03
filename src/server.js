@@ -311,7 +311,7 @@ app.get('/cantidad', (req, res) => {
 app.get('/actividades', (req, res) => {
   const { Id_Comuna } = req.query;
   const query = `SELECT a.Id_Actividad, u.Nom_User, a.Nom_Actividad, a.Fecha_INI_Actividad, a.Fecha_TER_Actividad, a.Desc_Actividad, a.Direccion_Actividad, m.Cantidad_MaxJugador, s.Nom_SubCategoria, C.Nom_Categoria, i.Url 
-                FROM ACTIVIDAD a Inner Join usuario u on a.Id_Anfitrion_Actividad = u.Id_User 
+                FROM ACTIVIDAD a Inner Join USUARIO u on a.Id_Anfitrion_Actividad = u.Id_User 
                 INNER JOIN MAXJUGADOR m ON a.Id_Maxjugador = m.Id_Maxjugador 
                 INNER JOIN SUBCATEGORIA s ON s.Id_SubCategoria = a.Id_SubCategoria 
                 INNER JOIN CATEGORIA C ON s.Id_Categoria = C.Id_Categoria 
@@ -404,11 +404,11 @@ app.put('/cambiaComuna', (req, res) => {
 app.get('/historial', (req, res) => {
   const { Id_User } = req.query;
   const query = `SELECT DISTINCT a.Nom_Actividad, a.Direccion_Actividad, a.Celular_User, a.Fecha_TER_Actividad, s.Nom_SubCategoria, i.url
-                  FROM Participante p
+                  FROM PARTICIPANTE p
                   JOIN ACTIVIDAD a ON p.Id_Actividad = a.Id_Actividad
                   JOIN USUARIO u ON a.Id_Anfitrion_Actividad = u.Id_User
-                  LEFT JOIN subcategoria s ON s.Id_SubCategoria = a.Id_SubCategoria
-                  LEFT JOIN imagen i ON a.Id_SubCategoria = i.Id_SubCategoria
+                  LEFT JOIN SUBCATEGORIA s ON s.Id_SubCategoria = a.Id_SubCategoria
+                  LEFT JOIN IMAGEN i ON a.Id_SubCategoria = i.Id_SubCategoria
                   WHERE p.Id_User = ?;`
   db.query(query, [Id_User], (err, results) => {
     if (err) {
