@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-icon name="arrow-back" class="back-arrow" (click)="volver()"></ion-icon>
     </ion-buttons>
+    <ion-title color="black">Detalles de Actividad</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -38,9 +39,9 @@
       <ion-card-title color="black">Lapso de Inscripción</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p class="activity-info"><span>Fecha:</span> {{ actividad.Fecha_TER_Actividad | date: 'mediumDate' }}</p>
-      <p class="activity-info"><span>Hora de Inicio:</span> {{ actividad.Fecha_INI_Actividad | date: 'shortTime' }}</p>
-      <p class="activity-info"><span>Hora de Término:</span> {{ actividad.Fecha_TER_Actividad | date: 'shortTime' }}</p>
+      <p class="activity-info"><strong>Fecha:</strong> {{ actividad.Fecha_TER_Actividad | date: 'mediumDate' }}</p>
+      <p class="activity-info"><strong>Hora de Inicio:</strong> {{ actividad.Fecha_INI_Actividad | date: 'shortTime' }}</p>
+      <p class="activity-info"><strong>Hora de Término:</strong> {{ actividad.Fecha_TER_Actividad | date: 'shortTime' }}</p>
     </ion-card-content>
   </ion-card>
 

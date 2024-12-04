@@ -40,7 +40,14 @@
               {{ actividad.Direccion_Actividad }}
             </a>
           </p>
-          <p>Celular Anfitrion: {{ actividad.Celular_User }}</p>
+          <p>
+            Celular Anfitrión:
+            <a 
+              href="tel:{{ actividad.Celular_User }}" 
+              style="text-decoration: none; color: inherit; font-weight: bold;">
+              {{ actividad.Celular_User }}
+            </a>
+          </p>
         </div>
       </ion-card-content>
     </ion-card>

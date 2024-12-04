@@ -1,72 +1,84 @@
+// Variables de colores para el degradado
+$gradient-start:#2ee709;
+$gradient-end:  #17db10;
 
-.custom-header {
-    background: transparent;
-    .back-arrow {
-      font-size: 24px;
-      color: #000;
-      margin-left: 10px;
-      cursor: pointer;
+// Estilos generales
+:host {
+  display: block;
+  --background: #f0f0f0; 
+}
+
+// Estilos del encabezado con degradado
+ion-header {
+    background: linear-gradient(135deg, #2ee709, #17db10); 
+    color: rgb(2, 2, 2);
+  
+    ion-toolbar {
+      --background: transparent;
+      color: black;
+  
+      ion-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: black; 
+      }
     }
   }
   
-  .content-container {
-    padding: 0 41px;
-  
-    .activity-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin: 13px 41px 33px 41px;
-      text-align: left;
-    }
-  
-    .activity-details {
-      margin: 41px;
-      margin-bottom: 12px;
-  
-      .activity-name {
-        color: #21C935;
-        font-size: 20px;
+
+// Estilos del contenido
+ion-content {
+  .ion-padding {
+    padding: 16px;
+  }
+
+  // Estilos para las tarjetas de detalles de actividad
+  ion-card {
+    margin-bottom: 16px;
+
+    ion-card-header {
+      background: linear-gradient(135deg, $gradient-start, $gradient-end); // Degradado para el encabezado de la tarjeta
+      color: white;
+      padding: 12px;
+      
+      ion-card-title {
+        font-size: 1.25rem;
         font-weight: bold;
-        margin-bottom: 8px;
+        color: white;
       }
-  
-      .activity-info {
-        font-size: 14px;
-        color: #757575;
-        margin-bottom: 12px;
-  
-        span {
-          color: #656565;
-          font-weight: bold;
+    }
+
+    ion-card-content {
+      font-size: 1rem;
+      color: #333;
+
+      p {
+        margin: 8px 0;
+        strong {
+          font-weight: 600;
+          color: $gradient-end;
         }
       }
     }
-  
-    .inscription-period {
-      margin: 41px;
-      margin-bottom: 57px;
-  
-      h3 {
-        font-size: 16px;
-        color: #21C935;
-        font-weight: bold;
-        margin-bottom: 12px;
-      }
-  
-      .activity-info {
-        font-size: 14px;
-        color: #757575;
-        margin-bottom: 12px;
-  
-        span {
-          color: #656565;
-          font-weight: bold;
-        }
-      }
-    }
-  
-  }
+  } 
 
-  .button-container{
-    margin: 41px;
-  }
+}
+
+.button-container{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.action-button {
+  margin: 8px auto;
+  width: 45%;
+  height: 30px;
+  font-size: 10px;
+  border-radius: 8px;
+}
+
+.back-arrow {
+  padding-left: 10px;
+  font-size: 24px; /* Tamaño del ícono */
+  vertical-align: middle; /* Alineación con el texto */
+}
