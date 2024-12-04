@@ -24,16 +24,14 @@
     </ion-card-header>
     <form (ngSubmit)="actualizarActividad()">
       <ion-item>
-        <ion-label position="floating">Descripción</ion-label>
-        <ion-textarea [(ngModel)]="actividad.Desc_Actividad" name="Desc_Actividad"></ion-textarea>
+        <ion-input label="Descripción: " [(ngModel)]="actividad.Desc_Actividad" name="Desc_Actividad"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Dirección</ion-label>
-        <ion-input [(ngModel)]="actividad.Direccion_Actividad" name="Direccion_Actividad"></ion-input>
+        <ion-input label="Dirección: " [(ngModel)]="actividad.Direccion_Actividad" name="Direccion_Actividad"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Cantidad Máxima de Jugadores</ion-label>
-        <ion-select [(ngModel)]="actividad.Id_MaxJugador" name="Id_MaxJugador">
+        <ion-label>Jugadores</ion-label>
+        <ion-select [(ngModel)]="actividad.Id_MaxJugador" name="Id_MaxJugador" placeholder="Cambia la cantidad">
           <ion-select-option *ngFor="let jugador of MaxjugadorId" [value]="jugador.Id_MaxJugador">
             {{ jugador.Cantidad_MaxJugador }}
           </ion-select-option>
