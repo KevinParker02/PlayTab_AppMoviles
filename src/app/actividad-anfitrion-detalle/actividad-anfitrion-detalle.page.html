@@ -41,7 +41,7 @@
       </ion-item>
     </form>
     <div class="ion-text-center ion-padding">
-      <ion-button expand="block" (click)="actualizarActividad()">Guardar Cambios</ion-button>
+      <ion-button class="action-button" expand="block" (click)="actualizarActividad()">Guardar Cambios</ion-button>
     </div>
   </ion-card>
 
@@ -54,7 +54,7 @@
       <ion-item *ngFor="let usuario of usuariosInscritos" lines="full" class="asistencia-item">
         <ion-label>
           <h3 class="usuario-nombre">{{ usuario.Nom_User }}</h3>
-          <p class="usuario-celular">📱 {{ usuario.Celular_User }}</p>
+          <p class="usuario-celular">Contacto: {{ usuario.Celular_User }}</p>
           <p class="asistencia-estado">
             <strong>Asistencia Actual:</strong> 
             <span [ngClass]="{'asistencia-presente': usuario.Tipo_Asistencia === 'Presente', 'asistencia-ausente': usuario.Tipo_Asistencia === 'Ausente'}">
@@ -77,7 +77,7 @@
 
   <!-- Botones de acciones principales -->
   <div class="ion-text-center ion-padding">
-    <ion-button expand="block" (click)="volver()">Volver</ion-button>
-    <ion-button expand="block" (click)="borrarActividad()">Borrar Actividad</ion-button>
+    <ion-button class="action-button" expand="block" (click)="volver()">Volver</ion-button>
+    <ion-button class="action-button" expand="block" (click)="borrarActividad()">Borrar Actividad</ion-button>
   </div>
 </ion-content>
