@@ -17,14 +17,18 @@
 
   <!-- Perfil -->
   <ion-card class="profile-card ion-text-center">
-    <ion-avatar class="avatar-centered">
-      <img [src]="fotoPerfil" alt="Foto de perfil" />
-    </ion-avatar>    
+    <div class="profile-picture-container">
+      <ion-avatar class="avatar-centered">
+        <img [src]="fotoPerfil" alt="Foto de perfil" />
+      </ion-avatar>
+      <ion-icon
+        class="edit-icon"
+        name="create-outline"
+        (click)="abrirModalFotoPerfil()">
+      </ion-icon>
+    </div>
     <ion-card-title>{{nombreUser}}</ion-card-title>
-
-    <ion-button expand="block" (click)="abrirModalFotoPerfil()">Cambiar Foto</ion-button>
   </ion-card>
-
    <!-- Sección Sobre Mí -->
    <ion-list class="list-section">
       <ion-list-header>
