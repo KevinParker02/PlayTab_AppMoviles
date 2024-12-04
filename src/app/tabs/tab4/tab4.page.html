@@ -1,20 +1,12 @@
 <ion-header class="ion-no-border">
   <ion-toolbar class="toolbar">
-    <ion-buttons slot="start">
-      <ion-button (click)="IrHistorial()">
-        <ion-icon name="time-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-icon slot="start" (click)="IrHistorial()" name="time-outline"></ion-icon>
 
     <div class="toolbar-container">
       <label class="toolbar-text">Actividades vigentes</label>
     </div>
 
-    <ion-buttons slot="end">
-      <ion-button (click)="MisActividades()">
-        <ion-icon name="create-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-icon slot="end" (click)="MisActividades()" name="create-outline"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
