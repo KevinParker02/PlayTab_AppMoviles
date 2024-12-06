@@ -15,7 +15,7 @@ export class ActividadAnfitrionDetallePage implements OnInit {
 
   @Input() actividad: any;
   actividades: any[] = [];
-  jugadoresInscritos: number | undefined; 
+  jugadoresInscritos: number=0;
 
   MaxjugadorId: any[] = [];
   maxJugadores: number = 0;
@@ -38,7 +38,7 @@ export class ActividadAnfitrionDetallePage implements OnInit {
     console.log('Actividad recibida:', this.actividad);
     this.databaseService.getJugadores(this.actividad.Id_Actividad).subscribe(
       (response) => {
-        this.jugadoresInscritos = response[0]['COUNT(Id_Actividad)'];
+        this.jugadoresInscritos = response[0]?.['COUNT(Id_Actividad)'] ?? 0;
         console.log('Jugadores inscritos:', this.jugadoresInscritos);
       },
       (error) => {
@@ -49,7 +49,7 @@ export class ActividadAnfitrionDetallePage implements OnInit {
     this.databaseService.getMaxJugador().subscribe(
       (data) => {
         this.MaxjugadorId = data;
-        console.log('Cantidad jugadores recibidas:', data);
+        console.log('Opciones MaxJugador cargadas:', this.MaxjugadorId);
       },
       (error) => {
         console.error('Error al obtener cantidad jugadores:', error);
