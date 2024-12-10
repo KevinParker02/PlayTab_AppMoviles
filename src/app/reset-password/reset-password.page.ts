@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-reset-password',
@@ -16,7 +17,8 @@ export class ResetPasswordPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private alertController: AlertController
   ) {
     this.resetForm = this.fb.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -25,24 +27,38 @@ export class ResetPasswordPage implements OnInit {
   }
 
   ngOnInit() {
-    this.token = this.route.snapshot.paramMap.get('token') || '';  // Obtenemos el token desde la URL
+    this.token = this.route.snapshot.paramMap.get('token') || '';
+    if (!this.token) {
+      this.presentAlert('Error', 'Token inválido o ausente.');
+      this.router.navigate(['/']);
+    }
+  }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 
   onSubmit() {
     if (this.resetForm.valid) {
       const { newPassword, confirmPassword } = this.resetForm.value;
       if (newPassword !== confirmPassword) {
-        return alert('Las contraseñas no coinciden');
+        this.presentAlert('Error :(', 'Las contraseñas no coinciden.');
+        return;
       }
 
-      this.http.post('http://localhost:3000/reset-password', { token: this.token, newPassword })
+      this.http.post('https://backendoutmate-production.up.railway.app/reset-password', { token: this.token, newPassword })
         .subscribe({
           next: () => {
-            alert('Contraseña restablecida exitosamente');
+            this.presentAlert('¡Muy Bien!', 'Contraseña restablecida exitosamente.');
             this.router.navigate(['/login']);
           },
           error: (error) => {
-            alert('Error al restablecer la contraseña');
+            this.presentAlert('Error :(', 'No logramos restablecer la contraseña.');
             console.error(error);
           }
         });
