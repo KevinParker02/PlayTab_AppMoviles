@@ -97,6 +97,7 @@ export class ActividadesPage implements OnInit {
   
     // Obtener la fecha actual para combinarla con la hora ingresada
     const fechaActual = new Date();
+    fechaActual.setSeconds(0, 0);
   
     // Obtener horas y minutos de las horas ingresadas
     const [horaInicio, minutosInicio] = this.horaActividad.split(':').map(Number);
