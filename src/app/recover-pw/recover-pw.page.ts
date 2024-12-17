@@ -47,19 +47,20 @@ export class RecoverPwPage implements OnInit {
 
   RecoverPW() {
     if (!this.validateInputs()) return;
-
-    this.http.post<{ message: string, token: string, expiry: number }>('https://backendoutmate-production.up.railway.app/recover-password', {
+  
+    this.http.post('https://backendoutmate-production.up.railway.app/recover-password', {
       RUT: this.rut,
       correo: this.mailuser
     })
     .subscribe({
       next: () => {
-        this.presentAlert('Éxito', 'Se ha enviado un código de recuperación a tu correo.');
-        this.router.navigate(['/login']);
+        this.presentAlert('Éxito', 'Se ha enviado un token de recuperación a tu correo.');
+        this.router.navigate(['/reset-password']); // Asegúrate de que esta ruta esté correctamente configurada en app-routing.module.ts
       },
       error: () => {
-        this.presentAlert('Error', 'Error al enviar el código de recuperación');
+        this.presentAlert('Error', 'No pudimos enviar el token de recuperación, verifica tus datos antes de volver a intentar.');
       }
     });
   }
+  
 }

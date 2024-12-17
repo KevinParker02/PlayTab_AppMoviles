@@ -55,8 +55,9 @@ const routes: Routes = [
     canActivate:[authGuard]
   },
   {
-    path: 'reset-password/:token', 
-    loadChildren: () => import('./reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
+    path: 'reset-password', 
+    loadChildren: () => import('./reset-password/reset-password.module').then(m => m.ResetPasswordPageModule),
+    canActivate:[authGuard]
   },
   {
     path: 'cambiacomuna',
