@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button default-href="#"></ion-back-button>
+    <ion-buttons (click)="Volver()" slot="start">
+      <ion-icon class="icono" name="arrow-back-outline"></ion-icon>
     </ion-buttons>
-    <ion-title>Registro</ion-title>
+    <div class="toolbar-container">
+      <ion-title><strong>Localidad</strong></ion-title>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +13,8 @@
   <ion-grid class="singup-container">
     <ion-row class="cont-titulo ion-justify-content-center">
       <ion-col size="12" class="ion-text-start">
-        <ion-title><strong>¿Te moviste de comuna?</strong></ion-title>
+        <ion-title><strong>¿Te cambiaste</strong></ion-title>
+        <ion-title><strong>de comuna?</strong></ion-title>
       </ion-col>
     </ion-row>
 

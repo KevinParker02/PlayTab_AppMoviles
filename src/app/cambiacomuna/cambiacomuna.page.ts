@@ -85,5 +85,8 @@ export class CambiacomunaPage implements OnInit {
     }
   }
   
+  Volver(){
+    this.router.navigate(['./tabs/tab3']);
+  }  
 
 }

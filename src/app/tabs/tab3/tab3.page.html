@@ -27,7 +27,7 @@
         (click)="abrirModalFotoPerfil()">
       </ion-icon>
     </div>
-    <ion-card-title>{{nombreUser}}</ion-card-title>
+    <ion-card-title class="nombre">{{nombreUser}}</ion-card-title>
   </ion-card>
    <!-- Sección Sobre Mí -->
    <ion-list class="list-section">
@@ -48,35 +48,17 @@
         <ion-label>{{regionUser}} > {{comunaUser}}</ion-label>
         <a (click)="cambiarComuna()"><ion-icon name="pencil-outline" slot="end"></ion-icon></a>
       </ion-item>
-      <!--
       <ion-item>
         <ion-icon name="bookmark-outline" slot="start"></ion-icon>
-        <ion-label>{{catgoria}} > {{subcategoria}}</ion-label>
-        <a (click)="cambiarComuna()"><ion-icon name="pencil-outline" slot="end"></ion-icon></a>
-      </ion-item> -->
+        <ion-label>{{Nom_SubCategoria}}</ion-label>
+        <a (click)="cambiarActividad()"><ion-icon name="pencil-outline" slot="end"></ion-icon></a>
+      </ion-item>
     </ion-list>
-
-   <!-- Sección Configuraciones -->
-   <!--<ion-list class="list-section">
-    <ion-list-header>
-      <ion-label>Configuraciones</ion-label>
-    </ion-list-header>
-    <ion-item>
-      <ion-icon name="notifications" slot="start"></ion-icon>
-      <ion-label>Modo Silencio</ion-label>
-      <ion-toggle slot="end"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-icon name="moon" slot="start"></ion-icon>
-      <ion-label>Modo Oscuro</ion-label>
-      <ion-toggle slot="end"></ion-toggle>
-    </ion-item>
-  </ion-list>-->
 
   <!-- Botones -->
   <div class="button-container">
-    <ion-button expand="block"  (click)="logOut()">Cerrar Sesión</ion-button>
-    <ion-button expand="block"  (click)="deleteAccount()">Borrar Perfil</ion-button>
+    <ion-button expand="block" class="a" (click)="logOut()">Cerrar Sesión</ion-button>
+    <ion-button expand="block" class="a" (click)="deleteAccount()">Borrar Perfil</ion-button>
   </div>
 
 </ion-content>

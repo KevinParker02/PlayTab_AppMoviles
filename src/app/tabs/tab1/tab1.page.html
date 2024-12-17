@@ -43,7 +43,7 @@
   
   <!-- Actividades -->
   <div class="list-container">
-    <div *ngFor="let actividad of actividades" class="card-list" (click)="onCardClick(actividad)">
+    <div *ngFor="let actividad of actividadesAleatorias; let i = index" class="card-list" (click)="onCardClick(actividad)">
       <img [src]="actividad.Url || 'assets/portrait/nocover.jpg'" alt="Actividad" class="card-image" />
       
       <div class="card-info-container">
@@ -61,7 +61,30 @@
         
       </div>
     </div>
+  </div>
+  
+  <h1 class="actividad-favorita">Según tus gustos</h1>
+  
+  <!-- Actividades -->
+  <div class="list-container">
+    <div *ngFor="let actividad of actividadesFavoritasAleatorias; let i = index" class="card-list" (click)="onCardClick(actividad)">
+      <img [src]="actividad.Url || 'assets/portrait/nocover.jpg'" alt="Actividad" class="card-image" />
+      
+      <div class="card-info-container">
+        <!-- Título -->
+        <h2 class="card-title">{{ actividad.Nom_Actividad }}</h2>
+  
+        <!-- Subtítulo -->
+        <p class="card-subtitle">{{ actividad.Nom_SubCategoria }}</p>
+  
+        <!-- Información -->
+        <p class="card-info">Participantes: {{ actividad.Cantidad_MaxJugador }}</p>
+        <p class="card-info">Dirección: {{ actividad.Direccion_Actividad }}</p>
 
-  </div>  
+        <p class="card-date-time">{{ actividad.Fecha_Termino }}, {{actividad.Hora_Termino}}</p>
+        
+      </div>
+    </div>
+  </div>
   
 </ion-content>

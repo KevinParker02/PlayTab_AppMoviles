@@ -16,12 +16,11 @@ export class Tab1Page implements OnInit, OnDestroy {
   weatherData: any;
   weatherIconUrl: string = '';
   actividades: any[] = []; 
-  coloresActividades: string[] = []; 
-  actividadesAleatorias: any[] = []; 
-  colors = [
-    'col-card1', 'col-card2', 'col-card3', 'col-card4', 'col-card5'
-  ];
+  actividadesAleatorias: any[] = [];
   private intervalId: any;
+
+  actividadesFavoritas: any[] = []; // Almacenar las actividades
+  actividadesFavoritasAleatorias: any[] = []; //Almacenar actividades aleatorias
 
   constructor(
     private localS: LocalStorageService,
@@ -39,6 +38,7 @@ export class Tab1Page implements OnInit, OnDestroy {
     }
 
     this.cargarActividades();
+    this.cargarActividadFavorito();
     this.getLocationAndWeather();
     
     this.intervalId = setInterval(() => {
@@ -68,9 +68,6 @@ export class Tab1Page implements OnInit, OnDestroy {
         (data) => {
           this.actividades = data;
           this.actividadesAleatorias = this.getRandomActivities(this.actividades, 6);
-          this.coloresActividades = this.actividadesAleatorias.map(() => this.getRandomColor());
-          console.log('Actividades aleatorias:', this.actividadesAleatorias);
-          console.log('Colores asignados:', this.coloresActividades);
         },
         (error) => {
           console.error('Error al obtener actividades:', error);
@@ -81,6 +78,27 @@ export class Tab1Page implements OnInit, OnDestroy {
     }
   }
   
+  cargarActividadFavorito() {
+    const user = this.localS.ObtenerUsuario('user');
+    if (user && user.Id_Comuna) {
+      const Id_Comuna = user.Id_Comuna;
+      const Id_SubCategoria = user.Id_SubCategoria;
+
+  
+      this.dbService.getActividadFavorita(Id_Comuna,Id_SubCategoria).subscribe(
+        (data) => {
+          this.actividadesFavoritas = data;
+          this.actividadesFavoritasAleatorias = this.getRandomActivities(this.actividadesFavoritas, 3);
+          console.log('Actividades favoritas aleatorias:', this.actividadesFavoritasAleatorias);
+        },
+        (error) => {
+          console.error('Error al obtener actividades favoritas:', error);
+        }
+      );
+    } else {
+      console.error('No se encontró el Id_Comuna o el usuario no tiene favoritos.');
+    }
+  }
 
   // Método para mostrar una alerta
   async presentAlert(header: string, message: string) {
@@ -90,12 +108,6 @@ export class Tab1Page implements OnInit, OnDestroy {
       buttons: ['OK'],
     });
     await alert.present();
-  }
-
-  // Método para obtener un color aleatorio
-  getRandomColor() {
-    const randomIndex = Math.floor(Math.random() * this.colors.length);
-    return this.colors[randomIndex];
   }
 
   // Actividades aleatorias

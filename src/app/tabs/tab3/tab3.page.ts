@@ -20,7 +20,8 @@ export class Tab3Page implements OnInit {
   comunaUser: string = '';
   catgoria: string = '';
   subcategoria: string = '';
-  fotoPerfil: string = '../../assets/icon/perfil.png'; // Imagen por defecto
+  fotoPerfil: string = '../../assets/icon/perfil.png';
+  Nom_SubCategoria: string = '';
 
   constructor(
     private router: Router,
@@ -54,7 +55,7 @@ export class Tab3Page implements OnInit {
       this.regionUser = usuario.Nombre_Region;
       this.comunaUser = usuario.Nombre_Comuna;
       this.catgoria = usuario.Nom_Categoria;
-      this.subcategoria = usuario.Nom_SubCategoria;
+      this.Nom_SubCategoria = usuario.Nom_SubCategoria
       this.fotoPerfil = usuario.Foto_User || '../../assets/icon/perfil.png';
     } else {
       console.warn('No se encontró información del usuario en el LocalStorage.');
@@ -127,6 +128,10 @@ export class Tab3Page implements OnInit {
 
   cambiarComuna() {
     this.router.navigate(['./cambiacomuna']);
+  }
+
+  cambiarActividad(){
+    this.router.navigate(['./cambio-actividad-favorita']);
   }
 
   async logOut() {
