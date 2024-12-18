@@ -67,6 +67,26 @@ export class RegisterPage {
     await alert.present();
   }
 
+  formatFechaNacimiento(event: any) {
+    let input = event.target.value.replace(/[^0-9]/g, '');
+    if (input.length > 4) {
+      input = input.slice(0, 4) + '-' + input.slice(4);
+    }
+    if (input.length > 7) {
+      input = input.slice(0, 7) + '-' + input.slice(7);
+    }
+    this.fechaNacimiento = input.slice(0, 10);
+  }
+  
+  validateCelular(event: any) {
+    const input = event.target.value;
+    if (!input.startsWith('+569')) {
+      this.celular = '+569';
+    } else {
+      this.celular = input;
+    }
+  }
+
   // Método para el registro de usuario
   async SingUp() {
     if (this.isLoading) return;

@@ -34,7 +34,14 @@
           <!-- Campo para la fecha de nacimiento -->
           <ion-item>
             <ion-label slot="start">Fecha de Nacimiento:</ion-label>
-            <ion-input display-format="YYYY-MM-DD" placeholder="YYYY-MM-DD" maxlength="10" [(ngModel)]="fechaNacimiento" required></ion-input> <!-- Cambié a ionBlur para abrir el calendario -->
+            <ion-input 
+              placeholder="YYYY-MM-DD" 
+              maxlength="10" 
+              [(ngModel)]="fechaNacimiento" 
+              (ionInput)="formatFechaNacimiento($event)" 
+              type="text" 
+              required>
+            </ion-input>
             <ion-icon slot="end" name="calendar-outline"></ion-icon>
           </ion-item>   
 
@@ -46,7 +53,15 @@
 
           <!-- Celular del usuario -->
           <ion-item>
-            <ion-input label="Celular:" type="tel" placeholder="+569" maxlength="12" [(ngModel)]="celular" required></ion-input>
+            <ion-input 
+              label="Celular:" 
+              type="tel" 
+              maxlength="12" 
+              [(ngModel)]="celular" 
+              (ionInput)="validateCelular($event)" 
+              placeholder="+569" 
+              required>
+            </ion-input>
             <ion-icon slot="end" name="call-outline"></ion-icon>
           </ion-item>
 
