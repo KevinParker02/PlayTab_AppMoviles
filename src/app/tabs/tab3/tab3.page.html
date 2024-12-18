@@ -58,7 +58,7 @@
   <!-- Botones -->
   <div class="button-container">
     <ion-button expand="block" class="a" (click)="logOut()">Cerrar Sesión</ion-button>
-    <ion-button expand="block" class="a" (click)="deleteAccount()">Borrar Perfil</ion-button>
+    <ion-button expand="block" class="a" (click)="deleteAccount()" [disabled]="isLoading">Borrar Perfil</ion-button>
   </div>
 
 </ion-content>

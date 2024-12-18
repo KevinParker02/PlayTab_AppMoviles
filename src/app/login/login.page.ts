@@ -17,6 +17,8 @@ export class LoginPage {
   isAlertOpen: boolean = false;
   alertMessage: string = '';
 
+  isLoading: boolean = false;
+
   constructor(
     private router: Router,
     private alertController: AlertController,
@@ -41,31 +43,36 @@ export class LoginPage {
 
   // Método para iniciar sesión
   async login() {
-  if (!this.mailuser || !this.password) {
-    this.presentAlert('Por favor, complete todos los campos.');
-    return;
-  }
-
-  try {
-    const response: any = await this.dbService.loginUser(this.mailuser, this.password).toPromise();
-    console.log('Respuesta recibida:', response); // Verifica la estructura completa de la respuesta
-
-    if (response && response.user) {
-      // Guardar los datos en localStorage
-      this.localS.GuardarUsuario('user', response.user);
-      localStorage.setItem('isAuthenticated', 'true');
-      this.router.navigate(['./tabs/tab1']);
-    } else {
-      this.presentAlert('Credenciales incorrectas. Inténtalo de nuevo.');
+    if (this.isLoading) return;
+    this.isLoading = true;
+  
+    if (!this.mailuser || !this.password) {
+      this.presentAlert('Por favor, complete todos los campos.');
+      this.isLoading = false;
+      return;
     }
-  } catch (error: any) {
-    if (error.status === 401) {
-      this.presentAlert('Credenciales incorrectas o el usuario no existe en OutMate.');
-    } else {
-      this.presentAlert('Error del servidor. Por favor intenta de nuevo más tarde :(');
+  
+    try {
+      const response: any = await this.dbService.loginUser(this.mailuser, this.password).toPromise();
+      console.log('Respuesta recibida:', response);
+  
+      if (response && response.user) {
+        this.localS.GuardarUsuario('user', response.user);
+        localStorage.setItem('isAuthenticated', 'true');
+        this.router.navigate(['./tabs/tab1']);
+      } else {
+        this.presentAlert('Credenciales incorrectas. Inténtalo de nuevo.');
+      }
+    } catch (error: any) {
+      if (error.status === 401) {
+        this.presentAlert('Credenciales incorrectas o el usuario no existe en OutMate.');
+      } else {
+        this.presentAlert('Error del servidor. Por favor intenta de nuevo más tarde :(');
+      }
+    } finally {
+      this.isLoading = false;
     }
   }
-}
 
   // Método para la recuperación de contraseña
   recover() {

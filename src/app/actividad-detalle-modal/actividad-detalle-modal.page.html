@@ -49,6 +49,6 @@
 
   <!-- Botón Unirse -->
   <div class="button-container">
-    <ion-button expand="block" class="join-button" (click)="inscribir()">Unirme</ion-button>
+    <ion-button expand="block" class="join-button" (click)="inscribir()" [disabled]="isLoading">Unirme</ion-button>
   </div>
 </ion-content>

@@ -13,7 +13,9 @@ declare const google: any;
 export class ActividadDetalleModalPage implements OnInit {
 
   @Input() actividad: any;
-  jugadoresInscritos: number | undefined; 
+  jugadoresInscritos: number | undefined;
+  
+  isLoading: boolean = false;
 
   constructor(
     private modalController: ModalController,
@@ -86,9 +88,13 @@ export class ActividadDetalleModalPage implements OnInit {
   }
 
   inscribir() {
+    if (this.isLoading) return; 
+    this.isLoading = true;
+  
     if (this.jugadoresInscritos !== undefined && this.actividad?.Cantidad_MaxJugador !== undefined) {
       if (this.jugadoresInscritos >= this.actividad.Cantidad_MaxJugador) {
         this.presentAlert('Cupo completo', 'No puedes inscribirte porque el cupo de la actividad ya está lleno.');
+        this.isLoading = false;
         return;
       }
     }
@@ -96,17 +102,20 @@ export class ActividadDetalleModalPage implements OnInit {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const idUser = user.Id_User;
   
-    this.databaseService.registerParticipante(this.actividad.Id_Actividad, idUser).subscribe(
-      (response) => {
+    this.databaseService.registerParticipante(this.actividad.Id_Actividad, idUser).subscribe({
+      next: (response) => {
         console.log('Inscripción exitosa:', response);
         this.presentAlert('¡Muy Bien!', 'Te haz inscrito a la actividad.');
         this.volver();
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al inscribirse:', error);
         this.presentAlert('¡Ups!', 'Al parecer ya estás inscrito.');
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-    );
+    });
   }
   
   

@@ -51,7 +51,7 @@
   <div *ngIf="actividad?.Direccion_Actividad" id="map" style="width: 100%; height: 300px; margin-top: 20px;"></div>
 
   <div class="ion-text-center ion-padding">
-    <ion-button class="action-button" expand="block" (click)="eliminarUsuarioDeActividad(actividad.Id_Actividad)">Salir de la actividad</ion-button>
+    <ion-button class="action-button" expand="block" (click)="eliminarUsuarioDeActividad(actividad.Id_Actividad)" [disabled]="isLoading">Salir de la actividad</ion-button>
     <ion-button class="action-button" expand="block" (click)="volver()">Volver</ion-button>
   </div>
 </ion-content>

@@ -23,6 +23,8 @@ export class Tab3Page implements OnInit {
   fotoPerfil: string = '../../assets/icon/perfil.png';
   Nom_SubCategoria: string = '';
 
+  isLoading: boolean = false;
+
   constructor(
     private router: Router,
     private localS: LocalStorageService,
@@ -56,7 +58,7 @@ export class Tab3Page implements OnInit {
       this.comunaUser = usuario.Nombre_Comuna;
       this.catgoria = usuario.Nom_Categoria;
       this.Nom_SubCategoria = usuario.Nom_SubCategoria
-      this.fotoPerfil = usuario.Foto_User || '../../assets/icon/perfil.png';
+      this.fotoPerfil = usuario.fotoPerfil || '../../assets/icon/perfil.png';
     } else {
       console.warn('No se encontró información del usuario en el LocalStorage.');
     }
@@ -77,9 +79,10 @@ export class Tab3Page implements OnInit {
   }
 
   actualizarFotoPerfil(foto: string) {
-    console.log('Nueva foto de perfil:', foto);
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    user.fotoPerfil = foto;
+    localStorage.setItem('user', JSON.stringify(user));
     this.fotoPerfil = foto;
-    // Aquí puedes agregar lógica para guardar la foto en el backend.
   }
 
   async deleteAccount() {
@@ -95,6 +98,10 @@ export class Tab3Page implements OnInit {
         {
           text: 'Si',
           handler: () => {
+            
+            if (this.isLoading) return;
+            this.isLoading = true;
+
             const usuario = this.localS.ObtenerUsuario('user');
             if (usuario && usuario.Id_User) {
               const idUser = usuario.Id_User;

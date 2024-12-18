@@ -3,8 +3,6 @@ import { Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { DatabaseService } from '../database.service';
 import { AlertController } from '@ionic/angular';
-import { LocalStorageService } from '../services/local-storage.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-actividad-anfitrion-detalle',
@@ -26,12 +24,12 @@ export class ActividadAnfitrionDetallePage implements OnInit {
     { id: 900, tipo: 'Ausente' },
   ];
 
+  isLoading: boolean = false;
+
   constructor(
-    private router : Router,
     private modalController: ModalController,
     private databaseService: DatabaseService,
     private alertController: AlertController,
-    private localS : LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -68,6 +66,9 @@ export class ActividadAnfitrionDetallePage implements OnInit {
   }
 
   actualizarActividad() {
+    if (this.isLoading) return;
+    this.isLoading = true;
+  
     const actividadActualizada = {
       Id_Actividad: this.actividad.Id_Actividad,
       Desc_Actividad: this.actividad.Desc_Actividad,
@@ -82,16 +83,19 @@ export class ActividadAnfitrionDetallePage implements OnInit {
       actividadActualizada.Desc_Actividad,
       actividadActualizada.Direccion_Actividad,
       actividadActualizada.Id_MaxJugador
-    ).subscribe(
-      () => {
+    ).subscribe({
+      next: () => {
         this.presentAlert('Éxito', 'La actividad se actualizó correctamente.');
-        this.modalController.dismiss(); // Cierra el modal después de la actualización
+        this.modalController.dismiss();
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al actualizar la actividad:', error);
         this.presentAlert('Error', 'No se pudo actualizar la actividad. Inténtalo nuevamente.');
+      },
+      complete: () => {
+        this.isLoading = false;
       }
-    );
+    });
   }
 
   async borrarActividad() {
@@ -105,18 +109,24 @@ export class ActividadAnfitrionDetallePage implements OnInit {
           cssClass: 'secondary',
         },
         {
-          text: 'Si',
+          text: 'Sí',
           handler: () => {
-            this.databaseService.deleteActividad(this.actividad.Id_Actividad).subscribe(
-              () => {
+            if (this.isLoading) return;
+            this.isLoading = true;
+  
+            this.databaseService.deleteActividad(this.actividad.Id_Actividad).subscribe({
+              next: () => {
                 this.presentAlert('Éxito', 'La actividad ha sido eliminada.');
-                this.modalController.dismiss(); // Cierra el modal después de eliminar la actividad
+                this.modalController.dismiss();
               },
-              (error) => {
+              error: (error) => {
                 console.error('¡Ups!', error);
                 this.presentAlert('Error', 'No se pudo eliminar la actividad. Inténtalo nuevamente.');
+              },
+              complete: () => {
+                this.isLoading = false;
               }
-            );
+            });
           },
         },
       ],

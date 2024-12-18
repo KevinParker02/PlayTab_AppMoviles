@@ -28,6 +28,8 @@ export class ActividadesPage implements OnInit {
   MaxjugadorId: any[] = [];
   maxJugadores: number = 0;
 
+  isLoading: boolean = false;
+
   constructor(
     private alertController: AlertController,
     private dbService: DatabaseService,
@@ -129,6 +131,9 @@ export class ActividadesPage implements OnInit {
       this.presentAlert('Error', 'La hora de término debe ser posterior a la hora actual.');
       return;
     }
+
+    if (this.isLoading) return;
+    this.isLoading = true;
   
     try {
       const usuario = this.localS.ObtenerUsuario('user');

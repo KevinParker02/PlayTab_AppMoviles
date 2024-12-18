@@ -25,6 +25,6 @@
       <input id="email" type="email" placeholder="Ingresa tu correo" [(ngModel)]="mailuser" />
     </div>
 
-    <ion-button expand="block" (click)="RecoverPW()">Enviar correo</ion-button>
+    <ion-button expand="block" (click)="RecoverPW()" [disabled]="isLoading">Enviar correo</ion-button>
   </div>
 </ion-content>

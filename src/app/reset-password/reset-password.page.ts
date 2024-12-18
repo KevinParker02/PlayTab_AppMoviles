@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 export class ResetPasswordPage implements OnInit {
   resetForm: FormGroup;
 
+  isLoading: boolean = false;
+
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
@@ -37,13 +39,18 @@ export class ResetPasswordPage implements OnInit {
   }
 
   onSubmit() {
+    if (this.isLoading) return; 
+    this.isLoading = true;
+  
     if (this.resetForm.valid) {
       const { token, newPassword, confirmPassword } = this.resetForm.value;
+  
       if (newPassword !== confirmPassword) {
         this.presentAlert('Error', 'Las contraseñas no coinciden.');
+        this.isLoading = false; 
         return;
       }
-
+  
       this.http.post('https://backendoutmate-production.up.railway.app/reset-password', { token, newPassword })
         .subscribe({
           next: () => {
@@ -53,8 +60,14 @@ export class ResetPasswordPage implements OnInit {
           error: (error) => {
             this.presentAlert('Error', 'Token inválido o error al actualizar la contraseña.');
             console.error(error);
+          },
+          complete: () => {
+            this.isLoading = false; 
           }
         });
+    } else {
+      this.presentAlert('Error', 'Formulario inválido. Verifique los campos.');
+      this.isLoading = false;
     }
   }
 }

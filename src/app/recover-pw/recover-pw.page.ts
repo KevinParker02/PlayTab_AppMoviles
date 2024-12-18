@@ -14,6 +14,8 @@ export class RecoverPwPage implements OnInit {
   showPassword = false;
   AceptaCondiciones: boolean = false;
 
+  isLoading: boolean = false;
+
   constructor(private router: Router, private alertController: AlertController, private http: HttpClient) {}
 
   ngOnInit() {}
@@ -46,7 +48,13 @@ export class RecoverPwPage implements OnInit {
   }
 
   RecoverPW() {
-    if (!this.validateInputs()) return;
+    if (this.isLoading) return;
+    this.isLoading = true; 
+  
+    if (!this.validateInputs()) {
+      this.isLoading = false;
+      return;
+    }
   
     this.http.post('https://backendoutmate-production.up.railway.app/recover-password', {
       RUT: this.rut,
@@ -55,10 +63,13 @@ export class RecoverPwPage implements OnInit {
     .subscribe({
       next: () => {
         this.presentAlert('Éxito', 'Se ha enviado un token de recuperación a tu correo.');
-        this.router.navigate(['/reset-password']); // Asegúrate de que esta ruta esté correctamente configurada en app-routing.module.ts
+        this.router.navigate(['/reset-password']);
       },
       error: () => {
         this.presentAlert('Error', 'No pudimos enviar el token de recuperación, verifica tus datos antes de volver a intentar.');
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }

@@ -15,7 +15,9 @@ export class CambiacomunaPage implements OnInit {
   comunaId: any[] = []; 
   region: number = 0; 
   comuna: number = 0;
-  IdUser: number= 0; 
+  IdUser: number= 0;
+  
+  isLoading: boolean = false;
 
   constructor(
     private localS: LocalStorageService,
@@ -58,9 +60,12 @@ export class CambiacomunaPage implements OnInit {
   }
 
   cambiarComuna() {
+    if (this.isLoading) return;
+    this.isLoading = true;
+  
     if (this.IdUser && this.comuna) {
-      this.dbService.cambiarComuna(this.comuna, this.IdUser).subscribe(
-        async (response) => {
+      this.dbService.cambiarComuna(this.comuna, this.IdUser).subscribe({
+        next: async (response) => {
           const user = this.localS.ObtenerUsuario('user');
           
           user.Id_Comuna = this.comuna;
@@ -68,22 +73,26 @@ export class CambiacomunaPage implements OnInit {
           
           user.Id_Region = this.region;
           user.Nombre_Region = this.regionId.find(r => r.Id_Region === this.region)?.Nombre_Region || 'Región Actualizada';
-  
+      
           this.localS.GuardarUsuario('user', user);
-  
-          // Mostrar mensaje de éxito
+      
           await this.presentAlert('Éxito', 'Región y comuna actualizadas exitosamente.');
           this.router.navigate(['/tabs/tab3']); 
         },
-        async (error) => {
+        error: async (error) => {
           console.error('Error al actualizar la comuna:', error);
           await this.presentAlert('Error', 'No se pudo actualizar la región y comuna. Intente nuevamente.');
+        },
+        complete: () => {
+          this.isLoading = false; 
         }
-      );
+      });
     } else {
       this.presentAlert('Advertencia', 'Seleccione una región y comuna.');
+      this.isLoading = false; 
     }
   }
+  
   
   Volver(){
     this.router.navigate(['./tabs/tab3']);

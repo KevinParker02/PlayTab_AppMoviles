@@ -19,6 +19,8 @@ export class ActividadDetInscritoModalPage implements OnInit {
   actividades: any[] = []; 
   Id_User: string = '';
 
+  isLoading: boolean = false; 
+
   constructor(
     private modalController: ModalController,
     private databaseService: DatabaseService,
@@ -91,22 +93,29 @@ export class ActividadDetInscritoModalPage implements OnInit {
   }
 
   eliminarUsuarioDeActividad(Id_Actividad: number) {
+    if (this.isLoading) return;
+    this.isLoading = true;
+  
     const user = this.localS.ObtenerUsuario('user');
     if (user && user.Id_User) {
       const idUser = user.Id_User;
-
-      this.databaseService.eliminarUsuarioDeActividad(idUser, Id_Actividad).subscribe(
-        (response) => {
+  
+      this.databaseService.eliminarUsuarioDeActividad(idUser, Id_Actividad).subscribe({
+        next: (response) => {
           this.presentAlert('Eliminado', 'Te haz desuscrito de la actividad.');
           this.volver();
           this.actividades = this.actividades.filter(actividad => actividad.Id_Actividad !== Id_Actividad);
         },
-        (error) => {
+        error: (error) => {
           console.error('Error al eliminar al usuario de la actividad:', error);
+        },
+        complete: () => {
+          this.isLoading = false;
         }
-      );
+      });
     } else {
       console.error('No se encontró el Id_User del usuario o el usuario no está autenticado.');
+      this.isLoading = false;
     }
   }
 

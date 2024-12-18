@@ -92,7 +92,7 @@
           <!-- Botón para crear la cuenta -->
           <ion-row class="ion-justify-content-center">
             <ion-col size="12" class="ion-text-center">
-              <ion-button class="botonA2" expand="block" (click)="SingUp()"><strong>Crear Cuenta</strong></ion-button>
+              <ion-button class="botonA2" expand="block" (click)="SingUp()" [disabled]="isLoading"><strong>Crear Cuenta</strong></ion-button>
             </ion-col>
           </ion-row>
 

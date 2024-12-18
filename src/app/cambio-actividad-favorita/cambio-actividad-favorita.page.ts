@@ -16,7 +16,9 @@ export class CambioActividadFavoritaPage implements OnInit {
   subcategoriaId: any[] = [];
   categoriaSeleccionada: number = 0;
   subcategoriaSeleccionada: number = 0;
-  IdUser: number= 0; 
+  IdUser: number= 0;
+
+  isLoading: boolean = false;
 
   constructor(
     private localS: LocalStorageService,
@@ -64,31 +66,35 @@ export class CambioActividadFavoritaPage implements OnInit {
   }
 
   guardarFavorito() {
+    if (this.isLoading) return;
+    this.isLoading = true; 
+  
     if (this.subcategoriaSeleccionada && this.IdUser) {
-      this.dbService.InsertUpdateFavorito(this.subcategoriaSeleccionada, this.IdUser).subscribe(
-        async (response) => {
+      this.dbService.InsertUpdateFavorito(this.subcategoriaSeleccionada, this.IdUser).subscribe({
+        next: async (response) => {
           const user = this.localS.ObtenerUsuario('user');
   
-          // Actualizar los datos de la subcategoría seleccionada
           user.Id_SubCategoria = this.subcategoriaSeleccionada;
           user.Nom_SubCategoria = this.subcategoriaId.find(
             sc => sc.Id_SubCategoria === this.subcategoriaSeleccionada
           )?.Nom_SubCategoria || 'Subcategoría Actualizada';
   
-          // Guardar en el LocalStorage
           this.localS.GuardarUsuario('user', user);
   
-          // Mostrar mensaje de éxito
           await this.presentAlert('Éxito', 'Tu actividad favorita ha sido actualizada correctamente.');
-          this.router.navigate(['/tabs/tab3']); 
+          this.router.navigate(['/tabs/tab3']);
         },
-        async (error) => {
+        error: async (error) => {
           console.error('Error al guardar la actividad favorita:', error);
           await this.presentAlert('Error', 'Hubo un problema al guardar tu actividad favorita.');
+        },
+        complete: () => {
+          this.isLoading = false;
         }
-      );
+      });
     } else {
       this.presentAlert('Error', 'Debes seleccionar una subcategoría.');
+      this.isLoading = false; 
     }
   }
 

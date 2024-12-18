@@ -36,7 +36,7 @@
 
     <a class="forgot-password" (click)="recover()">¿Olvidaste tu contraseña?</a>
 
-    <ion-button expand="block" (click)="login()">Ingresar</ion-button>
+    <ion-button expand="block" (click)="login()" [disabled]="isLoading">Ingresar</ion-button>
 
     <p class="signup-text">
       ¿Aún no tienes una cuenta en OutMate? <a (click)="signup()">Regístrate aquí</a>

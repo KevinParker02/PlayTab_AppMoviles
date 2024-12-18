@@ -24,6 +24,8 @@ export class RegisterPage {
   AceptaCondiciones: boolean = false;
   showPassword: boolean = false;
 
+  isLoading: boolean = false;
+
   constructor(
     private router : Router,
     private dbService: DatabaseService, // Inyecta el servicio
@@ -67,89 +69,100 @@ export class RegisterPage {
 
   // Método para el registro de usuario
   async SingUp() {
-    // Validar si todos los campos están llenos
+    if (this.isLoading) return;
+    this.isLoading = true;
+  
     if (!this.nombre || !this.rut || !this.mailuser || !this.celular || !this.password || !this.ConfirmPassword || !this.fechaNacimiento) {
-      this.presentAlert('Error','Faltan rellenar campos.');
+      this.presentAlert('Error', 'Faltan rellenar campos.');
+      this.isLoading = false;
       return;
     }
-
-    // Validar Nombre
+ 
     const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]{1,50}$/;
     if (!nameRegex.test(this.nombre)) {
       this.presentAlert('Error', 'Ingrese su nombre correctamente.');
+      this.isLoading = false;
       return;
     }
-
-    // Validar el rut
+  
     const rutRegex = /^\d{7,8}-[kK\d]$/;
     if (!rutRegex.test(this.rut)) {
-      this.presentAlert('Error','Ingrese un RUT válido.');
+      this.presentAlert('Error', 'Ingrese un RUT válido.');
+      this.isLoading = false;
       return;
     }
-
-    // Validar el formato del correo
+  
     const emailRegex = /^[^\s@]+@[^\s@]+\.(com|cl)$/i;
     if (!emailRegex.test(this.mailuser)) {
-      this.presentAlert('Error','El correo es inválido.');
+      this.presentAlert('Error', 'El correo es inválido.');
+      this.isLoading = false;
       return;
     }
 
-    // Validar el formato del número de celular
     const phoneRegex = /^\+569\d{8}$/;
     if (!phoneRegex.test(this.celular)) {
-      this.presentAlert('Error','Número de celular inválido.');
+      this.presentAlert('Error', 'Número de celular inválido.');
+      this.isLoading = false;
       return;
     }
-
+  
     // Validar la contraseña
     if (this.password.length < 6 || this.password.length > 8) {
-      this.presentAlert('Error','La contraseña debe tener mínimo 6 caracteres y máximo 8.');
+      this.presentAlert('Error', 'La contraseña debe tener mínimo 6 caracteres y máximo 8.');
+      this.isLoading = false;
       return;
     }
-
+  
     // Validar que ambas contraseñas sean iguales
     if (this.password !== this.ConfirmPassword) {
       this.presentAlert('Error', 'Las contraseñas no coinciden.');
+      this.isLoading = false;
       return;
     }
-
-    // Validar comuna
+  
+    // Validar región y comuna
     if (!this.regionId) {
-      this.presentAlert('Error','Debe seleccionar una región.');
+      this.presentAlert('Error', 'Debe seleccionar una región.');
+      this.isLoading = false;
       return;
     }
-
-    // Validar comuna
+  
     if (!this.comuna) {
-      this.presentAlert('Error','Debe seleccionar una comuna.');
+      this.presentAlert('Error', 'Debe seleccionar una comuna.');
+      this.isLoading = false;
       return;
     }
-
-    const regex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/; // Regex para formato YYYY-MM-DD
-    if (!this.fechaNacimiento.match(regex)) {
-      this.presentAlert('Error', 'Por favor, Ingrese una fecha valida.');
-    }
-
+  
     // Validar fecha de nacimiento
-    if (!this.fechaNacimiento) {
-      this.presentAlert('Error','Debe ingresar su fecha de nacimiento.');
+    const regex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    if (!this.fechaNacimiento.match(regex)) {
+      this.presentAlert('Error', 'Por favor, ingrese una fecha válida.');
+      this.isLoading = false;
       return;
     }
-
-    // Validar si los términos y condiciones han sido aceptados
+  
     if (!this.AceptaCondiciones) {
-      this.presentAlert('Error','Debe aceptar los términos y condiciones.');
+      this.presentAlert('Error', 'Debe aceptar los términos y condiciones.');
+      this.isLoading = false;
       return;
     }
-
+  
     try {
-      // Llamada al servicio para registrar al usuario
-      await this.dbService.registerUser(this.rut, this.nombre, this.mailuser, this.password, this.celular, this.comuna, this.fechaNacimiento).toPromise();
-      this.presentAlert('¡Felicidades!','Usuario registrado con éxito.');
+      await this.dbService.registerUser(
+        this.rut,
+        this.nombre,
+        this.mailuser,
+        this.password,
+        this.celular,
+        this.comuna,
+        this.fechaNacimiento
+      ).toPromise();
+  
+      this.presentAlert('¡Felicidades!', 'Usuario registrado con éxito.');
       this.rut = '';
       this.nombre = '';
       this.mailuser = '';
-      this.celular= '';
+      this.celular = '';
       this.password = '';
       this.ConfirmPassword = '';
       this.region = 0;
@@ -158,6 +171,8 @@ export class RegisterPage {
       this.router.navigate(['./login']);
     } catch (error) {
       this.presentAlert('Error', 'No se pudo registrar el usuario.');
+    } finally {
+      this.isLoading = false; 
     }
-  }
+  }  
 }
